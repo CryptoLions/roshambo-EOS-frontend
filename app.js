@@ -771,6 +771,7 @@ function getTableWinners(){
 	$('#btn_cancel').hide();
 	$(".get-started").hide();
 	$("#tableLoader").fadeIn();
+	$("#globaRank").hide();
 
 	eos.getActions({ account_name: gcontract,
 	   	 		  	 pos: -1,
