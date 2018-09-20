@@ -1,0 +1,24 @@
+{
+  "name": "roshambo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "connect": "^2.8.8"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/orange1337/roshambo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/orange1337/roshambo/issues"
+  },
+  "homepage": "https://github.com/orange1337/roshambo#readme"
+}
