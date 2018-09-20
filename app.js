@@ -51,6 +51,7 @@ $(document).ready(function() {
 			$(this).css("box-shadow", "0 10px 40px #209362");
 		});
 		$("#logoText").text("Jungle roshambo");
+		$("title").text("Jungle roshambo EOS game | by Cryptolions");
 	}
 
 }); 
