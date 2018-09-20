@@ -19,9 +19,6 @@ body, html {
 .uk-label{
 	background: #3387db;
 }
-.uk-margin-medium{
-	margin-bottom: 13px;
-}
 #recentPlayers{
 	display: none;
 }
@@ -70,7 +67,6 @@ body, html {
 }
 .game-icons{
 	font-size: 100px;
-	margin-bottom: -20px;
 }
 .game-icons i{
 	margin-left: 0px;
