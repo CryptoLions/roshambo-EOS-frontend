@@ -173,9 +173,8 @@ function createGame(){
    eos.contract(gcontract).then((contract) => {
 		contract.create(accountName, challenger, { authorization: [accountName]}).then((res) => {
 			getMyGamesCalls(function(){
-				let gameKey = Object.keys(GAMES_H)[0];
-				window.location.href = "/#challenge?" + gameKey;
-				renderMyGames(gameKey);
+				window.location.href = "/#challenge?" + accountName;
+				renderMyGames(accountName);
 			});
 		}).catch(error => {
         	var error_ = JSON.parse(error);
