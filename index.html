@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="Description" content="roshambo game created by Cryptolions and powered on EOS blockchain">
 
-        <title>roshambo (test)</title>
+        <title>roshambo EOS game | by Cryptolions</title>
     	<link rel="icon" href="imgs/favicon.png" type="image/x-icon">
 
 		<script src="https://cdn.jsdelivr.net/npm/eosjs@16.0.0/lib/eos.min.js" integrity="sha512-vNyLnOEb7uFmEtVbLnyZQ9/k4zckM2Vu3jJOKq6XfWEVZG0yKcjDExVN4EQ7e3F+rePWRncMolI2xFi/3qo62A==" crossorigin="anonymous"></script>
@@ -22,16 +22,17 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.16/js/uikit.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.16/js/uikit-icons.min.js"></script>
 
-        <link rel="stylesheet" href="style.css?v=1">
-   		<script src="app.js?v=1"></script>
-   		<script src="utils.js?v=1"></script>
+        <link rel="stylesheet" href="style.css?v=1.0.0">
+        <script src="config.js?v=1.0.0"></script>
+   		<script src="app.js?v=1.0.0"></script>
+   		<script src="utils.js?v=1.0.0"></script>
 </head>
 	<body>
 		<div class="uk-offcanvas-content">
 			<div class="uk-container uk-container-expand">
 				<nav class="uk-navbar">
 					<div class="uk-navbar-left logo-container">
-						<a href="/"><i class="fal fa-hand-scissors"></i> <span> roshambo</span></a>
+						<a href="/"><i class="fal fa-hand-scissors"></i> <span id="logoText"> roshambo</span></a>
 					</div>
 					<div class="uk-navbar-right nav-container">
 						<ul class="uk-navbar-nav uk-visible@m">
@@ -48,9 +49,11 @@
                                     </ul>
                                 </div>
                             </li>
+                            
                             <li>
-                                <a href="https://github.com/CryptoLions" target="_blank" class="uk-button uk-button-text">documentation</a>
+                                <a href="#top100" class="uk-button uk-button-text" onClick="getTableWinners()">top 100</a>
                             </li>
+
                             <li class="login-menu">
                                 <span class="alert-container callsCounterAlert"><span id="callsCounterAlert"></span></span>
                                 <a class="uk-button uk-button-text">game calls</a>
@@ -62,8 +65,14 @@
                                 </div>
                             </li>
 
-                            <li>
-                                <a href="#top100" class="uk-button uk-button-text" onClick="getTableWinners()">top 100</a>
+                             <li>
+                                <a class="uk-button uk-button-text">github</a>
+                                <div uk-dropdown>
+                                    <ul class="uk-nav uk-dropdown-nav" id="gameCalls">
+                                        <li><a href="https://github.com/CryptoLions/roshambo-EOS-frontend" target="_blank">Front-end</a></li>
+                                        <li><a href="https://github.com/CryptoLions/roshambo-EOS-contract" target="_blank">Smart Contract</a></li>
+                                    </ul>
+                                </div>
                             </li>
                             
                             <li class="uk-inline login-menu" id="userContainer">
@@ -101,13 +110,14 @@
                 			</div>
                 		</div>
                         
+                        <img src="imgs/pac.svg" alt="" id="tableLoader">
+
                         <div class="uk-container uk-width-1-2" id="globaRank">
                             <table class="uk-table uk-table-small uk-table-striped">
                                 <thead>
                                     <tr>
                                         <th>#</th>
                                         <th>Account</th>
-                                        <th>Games Played</th>
                                         <th>Wins</th>
                                     </tr>
                                 </thead>
@@ -119,6 +129,7 @@
                           <div id="games_container">
                             <div id="inputContainer">
                                 <div class="uk-margin-medium uk-text-lead">Please enter oponents <strong class="color-white">EOS</strong> account name and  <br/> press create the <strong class="color-white">game</strong>. Its totaly <strong class="color-white">free</strong></div>
+                                <div class="uk-inline container-input" id="recentPlayers"></div>
                                 <div class="uk-margin">
                                     <div class="uk-inline container-input">
                                         <span class="uk-form-icon" uk-icon="icon: user"></span>

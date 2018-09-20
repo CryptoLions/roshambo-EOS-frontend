@@ -192,3 +192,17 @@ function getCookie(cname) {
     }
     return "";
 }
+
+function setPlayer(name){
+	var namesArr = localStorage.getItem("players");
+	if (!namesArr){
+		localStorage.setItem("players", name);
+		return;
+	} else if (namesArr.indexOf(name) >= 0){
+		return;
+	}
+	namesArr = namesArr + "," + name;
+	localStorage.setItem("players", namesArr);
+}
+
+

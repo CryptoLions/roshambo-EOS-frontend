@@ -16,6 +16,27 @@ body, html {
     font-family: ProximaNova, "Helvetica Neue", Arial, sans-serif !important;
     -webkit-font-smoothing: antialiased;
 }
+.uk-label{
+	background: #3387db;
+}
+.uk-margin-medium{
+	margin-bottom: 13px;
+}
+#recentPlayers{
+	display: none;
+}
+#recentPlayers .uk-label{
+	margin-left: 10px;
+	margin-bottom: 8px;
+	text-transform: lowercase;
+	cursor: pointer;
+}
+#recentPlayers .uk-label:first-child{
+	margin-left: 0;
+}
+#tableLoader{
+	display: none;
+}
 
 .uk-h1, .uk-h2, .uk-h3, .uk-h4, .uk-h5, .uk-h6, h1, h2, h3, h4, h5, h6{
 	color:#fff;
@@ -62,11 +83,12 @@ body, html {
 }
 .uk-button-primary{
 	background: #fff !important;
-    color: #3483d9 !important;
+    color: #3483d9;
     border-radius: 30px;
 }
 .uk-button-primary:hover{
 	box-shadow: 0 10px 40px #3483d9;
+	color: #0f7ae5;
 }
 
 .uk-subnav>*>:first-child{

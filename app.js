@@ -11,6 +11,13 @@ var player_submited = {};
 var GAMES_H = {};
 var GAMES_C = {};
 
+var RECENT_PLAYEPS = localStorage.getItem("players") || null;
+
+var chain 		 = chain;
+var network 	 = network;
+var scatterLogin = localStorage.getItem('user');
+eos = eos;
+
 $(document).ready(function() {
 	init();
 	$("#btn_cancel").click(function(){
@@ -26,36 +33,27 @@ $(document).ready(function() {
 	} else if(hash[0] === "#call"){
 		renderGamesCall(hash[1]);
 	}
+
+	if (RECENT_PLAYEPS){
+		var html = "<small>Recent players: </small>";
+		RECENT_PLAYEPS = RECENT_PLAYEPS.split(",");
+		RECENT_PLAYEPS.forEach(function(name){
+			html += "<div class='uk-label' onClick='setRecentPlayer(\"" + name + "\")'>" + name + "</div>"
+		});
+		$("#recentPlayers").html(html).css("display", "inline-block");
+	}
+
+	if (!PRODUCTION){
+		$("body").css("background", "url('./imgs/section-background.svg') 50% 17vh no-repeat,linear-gradient(to left top, #218838bf, #218838) 0 0 no-repeat");
+		$(".uk-label").css("background", "#209362");
+		$(".uk-button-primary").css("color", "#209362");
+		$(".uk-button-primary").hover(function(){
+			$(this).css("box-shadow", "0 10px 40px #209362");
+		});
+		$("#logoText").text("Jungle roshambo");
+	}
+
 }); 
-
-
-chain = {
-	mainnet: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
-	testnet: '038f4b0fc8ff18a4f0842a8f0564611f6e96e8535901dd45e43ac8691a1c4dca',
-	sysnet: 'cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f'
-}
-
-const network = {
-    blockchain:'eos',
-    host:'jungle.cryptolions.io',
-    port:38888,
-    protocol:'http',
-    expireInSeconds: 120,
-    chainId: chain.testnet
-};
-
-const scatterLogin = localStorage.getItem('user');
-
-
-eos = Eos({
-	httpEndpoint: 'http://jungle.cryptolions.io:38888',
-	//httpEndpoint: 'http://88.99.193.44:8888',
-	chainId: chain.testnet,
-	verbose: false
-})
-
-
-
 
 
 function init(){
@@ -159,6 +157,8 @@ function createGame(){
    var challenger = $('#inp_create_game_challenger').val();
 
    setCookie("rpschallenger", challenger, 100);
+   setPlayer(challenger);
+
    if (challenger.length !== 12){
 			UIkit.notification({
     			message: 'Account name must be 12 characters!',
@@ -264,6 +264,10 @@ function renderMyGames(k){
 	$('#btn_cancel').show();
 	$('#globaRank').hide();
 
+	if(!GAMES_H[k]){
+		return;
+	}
+
 	if (GAMES_H[k].updated === 1 || GAMES_H[k].updated === 2){
 				gamesHISTORYS[GAMES_H[k].host] = [];
 
@@ -336,6 +340,9 @@ function renderGamesCall(k){
 	  	$('#btn_cancel').hide();
 		$('#globaRank').hide();
 
+		if(!GAMES_C[k]){
+			return;
+		}
 
 		if (GAMES_C[k].updated === 1 || GAMES_C[k].updated === 2){
 				  gamesHISTORYS[GAMES_C[k].host] = [];
@@ -762,37 +769,43 @@ function getTableWinners(){
 	$("#inputContainer").hide();
 	$("#game-icons").hide();
 	$('#btn_cancel').hide();
-	$('#globaRank').fadeIn();
 	$(".get-started").hide();
+	$("#tableLoader").fadeIn();
 
-	eos.getTableRows({ json:true, 
-					   scope: gcontract, 
-					   code: gcontract, 
-					   table: 'scores', 
-					   limit:100 
-					}).then(res => {
-   						let sortedRank = sortArrayWinners(res);
-   						renderGlobalTableRank(sortedRank);
-   					}).catch(error => {
-   						console.error(error);
-   					});
+	eos.getActions({ account_name: gcontract,
+	   	 		  	 pos: -1,
+	   	 		  	 offset: -1000
+				}).then(res => {
+   					let sortedRank = sortArrayWinners(res);
+   					renderGlobalTableRank(sortedRank);
+   				}).catch(error => {
+   					console.error(error);
+   				});
 }
 
 function sortArrayWinners(data){
-	if (!data || !data.rows){
+	if (!data || !data.actions){
 		return;
 	}
-	data.rows.sort(function(a, b){
-			if (a.games_win === b.games_win){
-				if (a.games_played > b.games_played) return 1;
-				if (a.games_played < b.games_played) return -1;
-				return 0;
+	var result = [];
+	var elemsObj = {};
+	data.actions.forEach(function(elem, index){
+		if (elem.action_trace.act.name === "winns"){
+			if (!elemsObj[elem.action_trace.act.data.winner]){
+				elemsObj[elem.action_trace.act.data.winner] = 1;
 			}
+			elemsObj[elem.action_trace.act.data.winner] += 1;
+		}
+	});
+	Object.keys(elemsObj).forEach(function(key){
+		result.push({ player: key, games_win: elemsObj[key] });
+	})
+	result.sort(function(a, b){
 			if (a.games_win > b.games_win) return -1;
 			if (a.games_win < b.games_win) return 1;
 			return 0;
 	});
-	return data.rows;
+	return result;
 }
 
 function renderGlobalTableRank(data){
@@ -802,11 +815,16 @@ function renderGlobalTableRank(data){
 		html += "<tr>\
 					<td>" + position + "</td>\
 					<td>" + elem.player + "</td>\
-					<td>" + elem.games_played + "</td>\
 					<td>" + elem.games_win + "</td>\
 				</tr>";
 	});	
+	$("#tableLoader").hide();
 	$("#globaRank tbody").html(html);
+	$("#globaRank").fadeIn();
+}
+
+function setRecentPlayer(name){
+	$("#inp_create_game_challenger").val(name);
 }
 
 
