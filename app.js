@@ -791,28 +791,32 @@ function sortArrayWinners(data){
 	}
 	var result = [];
 	var gamesObj = {};
-	data.actions.forEach(function(elem, index){
-		if (elem.action_trace.act.name === "winns" && elem.action_trace.act.data.winner !== "self"){
-			if (!gamesObj[elem.action_trace.act.data.winner]){
-				gamesObj[elem.action_trace.act.data.winner] = { games: 0, wins: 1 };
-			}
-			gamesObj[elem.action_trace.act.data.winner].wins += 1;
+	data.actions.forEach(function(elem, index, array){
+		let next = array[index + 1];
+		if (!next){
+			return;
+		}
+		if (next.block_num === elem.block_num){
 			return;
 		}
 
-		if (elem.action_trace.act.name === "close"){
-			if (!gamesObj[elem.action_trace.act.data.host]){
-				gamesObj[elem.action_trace.act.data.host] = { games: 1, wins: 0 };
-			} 
-			if(!gamesObj[elem.action_trace.act.data.challenger]){
-				gamesObj[elem.action_trace.act.data.challenger] = { games: 1, wins: 0 };
-			}
-			gamesObj[elem.action_trace.act.data.host].games += 1;
-			gamesObj[elem.action_trace.act.data.challenger].games += 1;
+		if (elem.action_trace.act.name === "winns" && elem.action_trace.act.data.winner !== "self"){
+				if (!gamesObj[elem.action_trace.act.data.winner]){
+					gamesObj[elem.action_trace.act.data.winner] = { games: 0, wins: 0 };
+				}
+				if (!gamesObj[elem.action_trace.act.data.host]){
+					gamesObj[elem.action_trace.act.data.host] = { games: 0, wins: 0 };
+				} 
+				if(!gamesObj[elem.action_trace.act.data.challenger]){
+					gamesObj[elem.action_trace.act.data.challenger] = { games: 0, wins: 0 };
+				}
+				gamesObj[elem.action_trace.act.data.winner].wins += 1;
+				gamesObj[elem.action_trace.act.data.host].games += 1;
+				gamesObj[elem.action_trace.act.data.challenger].games += 1;
 		}
 	});
 	Object.keys(gamesObj).forEach(function(key){
-		result.push({ player: key, games_played: gamesObj[key].games, games_win: gamesObj[key].wins });
+		result.push({ player: key.split("_")[0], games_played: gamesObj[key].games, games_win: gamesObj[key].wins });
 	})
 	result.sort(function(a, b){
 			if (a.games_win === b.games_win){
@@ -828,7 +832,7 @@ function sortArrayWinners(data){
 }
 
 function renderGlobalTableRank(data){
-	let html = "";
+	var html = "";
 	data.forEach(function(elem, index){
 		var position = index + 1;
 		html += "<tr>\
