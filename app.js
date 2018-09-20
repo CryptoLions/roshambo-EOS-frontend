@@ -790,19 +790,36 @@ function sortArrayWinners(data){
 		return;
 	}
 	var result = [];
-	var elemsObj = {};
+	var gamesObj = {};
 	data.actions.forEach(function(elem, index){
-		if (elem.action_trace.act.name === "winns"){
-			if (!elemsObj[elem.action_trace.act.data.winner]){
-				elemsObj[elem.action_trace.act.data.winner] = 1;
+		if (elem.action_trace.act.name === "winns" && elem.action_trace.act.data.winner !== "self"){
+			if (!gamesObj[elem.action_trace.act.data.winner]){
+				gamesObj[elem.action_trace.act.data.winner] = { games: 0, wins: 1 };
 			}
-			elemsObj[elem.action_trace.act.data.winner] += 1;
+			gamesObj[elem.action_trace.act.data.winner].wins += 1;
+			return;
+		}
+
+		if (elem.action_trace.act.name === "close"){
+			if (!gamesObj[elem.action_trace.act.data.host]){
+				gamesObj[elem.action_trace.act.data.host] = { games: 1, wins: 0 };
+			} 
+			if(!gamesObj[elem.action_trace.act.data.challenger]){
+				gamesObj[elem.action_trace.act.data.challenger] = { games: 1, wins: 0 };
+			}
+			gamesObj[elem.action_trace.act.data.host].games += 1;
+			gamesObj[elem.action_trace.act.data.challenger].games += 1;
 		}
 	});
-	Object.keys(elemsObj).forEach(function(key){
-		result.push({ player: key, games_win: elemsObj[key] });
+	Object.keys(gamesObj).forEach(function(key){
+		result.push({ player: key, games_played: gamesObj[key].games, games_win: gamesObj[key].wins });
 	})
 	result.sort(function(a, b){
+			if (a.games_win === b.games_win){
+				if (a.games_played > b.games_played) return 1;
+				if (a.games_played < b.games_played) return -1;
+				return 0;	
+			}
 			if (a.games_win > b.games_win) return -1;
 			if (a.games_win < b.games_win) return 1;
 			return 0;
@@ -817,6 +834,7 @@ function renderGlobalTableRank(data){
 		html += "<tr>\
 					<td>" + position + "</td>\
 					<td>" + elem.player + "</td>\
+					<td>" + elem.games_played + "</td>\
 					<td>" + elem.games_win + "</td>\
 				</tr>";
 	});	
