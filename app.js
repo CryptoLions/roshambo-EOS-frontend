@@ -1,7 +1,7 @@
 var scatter;
 var scatterInited = false;
 var accountName;
-var gcontract = "rpstester123";
+var gcontract = gcontract; //"rpstester123";
 var gLoaded = false;
 
 var GAME_TYPE = null;

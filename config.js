@@ -10,6 +10,8 @@ var network = {
     chainId: chain
 };
 
+var gcontract = "rpstester123";
+
 eos = Eos({
 	httpEndpoint: 'http://junglehistory.cryptolions.io:18888',
 	chainId: chain,
