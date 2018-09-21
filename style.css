@@ -34,6 +34,18 @@ body, html {
 #tableLoader{
 	display: none;
 }
+#gamesLog{
+	display: none;
+	height: 130px;
+	overflow-y: scroll; 
+}
+.uk-section-small{
+	padding-top: 5px;
+    padding-bottom: 25px;
+}
+#gameContainer{
+	margin-bottom: 20px;
+}
 
 .uk-h1, .uk-h2, .uk-h3, .uk-h4, .uk-h5, .uk-h6, h1, h2, h3, h4, h5, h6{
 	color:#fff;

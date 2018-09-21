@@ -777,18 +777,17 @@ function getTableWinners(){
 	   	 		  	 pos: -1,
 	   	 		  	 offset: -1000
 				}).then(res => {
-   					let sortedRank = sortArrayWinners(res);
+   					let sortedRank = sortArrayWinners(createObjWinners(res));
    					renderGlobalTableRank(sortedRank);
    				}).catch(error => {
    					console.error(error);
    				});
 }
 
-function sortArrayWinners(data){
+function createObjWinners(data){
 	if (!data || !data.actions){
 		return;
 	}
-	var result = [];
 	var gamesObj = {};
 	data.actions.forEach(function(elem, index, array){
 		let next = array[index + 1];
@@ -814,12 +813,17 @@ function sortArrayWinners(data){
 				gamesObj[elem.action_trace.act.data.challenger].games += 1;
 		}
 	});
+	return gamesObj;
+}
+
+function sortArrayWinners(gamesObj){
+	var result = [];
 	Object.keys(gamesObj).forEach(function(key){
 		if(key === "self"){
 			return;
 		}
 		result.push({ player: key, games_played: gamesObj[key].games, games_win: gamesObj[key].wins });
-	})
+	});
 	result.sort(function(a, b){
 			if (a.games_win === b.games_win){
 				if (a.games_played > b.games_played) return 1;
@@ -853,6 +857,58 @@ function setRecentPlayer(name){
 	$("#inp_create_game_challenger").val(name);
 }
 
+function renderTableGamesLogs(){
+	eos.getActions({ account_name: gcontract,
+	   	 		  	 pos: -1,
+	   	 		  	 offset: -1000
+				}).then(res => {
+   					let gamesPlayed = createArrayGames(res);
+   					var html = "";
+					gamesPlayed.forEach(function(elem, index){
+						var position = index + 1;
+						html += "<tr>\
+									<td>" + position + "</td>\
+									<td>" + elem.player_1 + "</td>\
+									<td>" + elem.player_2 + "</td>\
+									<td>" + elem.winner + "</td>\
+								</tr>";
+					});	
+					$("#gamesLog tbody").html(html);
+					$("#gamesLog").fadeIn();
+					setTimeout(renderTableGamesLogs, 60000);
+   				}).catch(error => {
+   					console.error(error);
+   					setTimeout(renderTableGamesLogs, 60000);
+   				});
+}
+
+function createArrayGames(data){
+	if (!data || !data.actions){
+		return;
+	}
+	var result = [];
+	data.actions.forEach(function(elem, index, array){
+		let next = array[index + 1];
+		if (!next){
+			return;
+		}
+		if (next.block_num === elem.block_num){
+			return;
+		}
+		if (elem.action_trace.act.name === "winns"){
+				let winner = elem.action_trace.act.data.winner;
+				if (winner === "self"){
+					winner = "0 : 0";
+				}
+				result.push({  player_1: elem.action_trace.act.data.host, 
+					           player_2: elem.action_trace.act.data.challenger, 
+					           winner: winner });
+		}
+	});
+	return result;
+}
+
+renderTableGamesLogs();
 
 
 
