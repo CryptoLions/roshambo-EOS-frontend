@@ -794,7 +794,10 @@ function createObjWinners(data){
 		if (!next){
 			return;
 		}
-		if (next.block_num === elem.block_num){
+		if (elem.block_num === next.block_num){
+			if (index+2 === array.length){
+				data.actions.push({block_num: "close"});
+			}
 			return;
 		}
 
@@ -864,7 +867,7 @@ function renderTableGamesLogs(){
 				}).then(res => {
    					let gamesPlayed = createArrayGames(res);
    					var html = "";
-					gamesPlayed.forEach(function(elem, index){
+					gamesPlayed.reverse().forEach(function(elem, index){
 						var position = index + 1;
 						html += "<tr>\
 									<td>" + position + "</td>\
@@ -892,7 +895,10 @@ function createArrayGames(data){
 		if (!next){
 			return;
 		}
-		if (next.block_num === elem.block_num){
+		if (elem.block_num === next.block_num){
+			if (index+2 === array.length){
+				data.actions.push({block_num: "close"});
+			}
 			return;
 		}
 		if (elem.action_trace.act.name === "winns"){
