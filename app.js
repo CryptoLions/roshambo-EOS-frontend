@@ -799,7 +799,7 @@ function sortArrayWinners(data){
 			return;
 		}
 
-		if (elem.action_trace.act.name === "winns" && elem.action_trace.act.data.winner !== "self"){
+		if (elem.action_trace.act.name === "winns"){
 				if (!gamesObj[elem.action_trace.act.data.winner]){
 					gamesObj[elem.action_trace.act.data.winner] = { games: 0, wins: 0 };
 				}
@@ -815,7 +815,10 @@ function sortArrayWinners(data){
 		}
 	});
 	Object.keys(gamesObj).forEach(function(key){
-		result.push({ player: key.split("_")[0], games_played: gamesObj[key].games, games_win: gamesObj[key].wins });
+		if(key === "self"){
+			return;
+		}
+		result.push({ player: key, games_played: gamesObj[key].games, games_win: gamesObj[key].wins });
 	})
 	result.sort(function(a, b){
 			if (a.games_win === b.games_win){
