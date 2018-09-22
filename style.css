@@ -303,7 +303,7 @@ body, html {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: #3771e5 !important;
+    background: #3387db !important;
     cursor: pointer !important;
     border-radius: 4px !important;
 }
