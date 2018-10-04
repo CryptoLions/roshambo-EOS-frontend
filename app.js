@@ -229,6 +229,7 @@ function renderGames_H(){
 		if ( !GAME_BTNS_STATE.create) {
 			GAME_BTNS_STATE.create = 1;
 			$('#btn_cancel').hide();
+			$('.btn_restart').hide();
 		}
 		$("#gameCallsHZero").show("");
 		return;
@@ -338,6 +339,7 @@ function renderGamesCall(k){
 		$("#inputContainer").hide();
 	  	$("#game-icons").hide();
 	  	$('#btn_cancel').hide();
+	  	$('.btn_restart').hide();
 		$('#globaRank').hide();
 
 		if(!GAMES_C[k]){
@@ -440,6 +442,7 @@ function getGameStatusH(game){
 
 				res.cstatus = "<span class='msg_bgr " + msg_col + "'>Move confirmed: " + icons[game.pc_move] + "</span>";
 	 			gamesHISTORYS[game.host][5] = "<b>[ " + game.challenger + " ]</b> " + "Confirmed Move: " + icons[game.pc_move] + "<BR/ > [move: "+game.pc_move+", nonce: " + game.pc_move_nonce + " = " + game.pc_move + "" + game.pc_move_nonce + " <a href='https://md5calc.com/hash/sha256/" + game.pc_move + "" + game.pc_move_nonce + "' target='_blank'>check</a>" +"]";
+	 			$('.btn_restart').css({ 'display': 'inline' });
 			}
 
 
@@ -769,6 +772,7 @@ function getTableWinners(){
 	$("#inputContainer").hide();
 	$("#game-icons").hide();
 	$('#btn_cancel').hide();
+	$('.btn_restart').hide();
 	$(".get-started").hide();
 	$("#tableLoader").fadeIn();
 	$("#globaRank").hide();
@@ -912,6 +916,26 @@ function createArrayGames(data){
 		}
 	});
 	return result;
+}
+
+function restart(){
+   eos.contract(gcontract).then((contract) => {
+		contract.restart(accountName, { authorization: [accountName]}).then((res) => {
+			location.reload();
+		}).catch(error => {
+        	var error_ = JSON.parse(error);
+        	console.log(error_.error.details[0].message);
+    		UIkit.notification({
+    			message: error_.error.details[0].message,
+    			status: 'danger',
+    			pos: 'top-center',
+    			timeout: 3000
+			});
+		});
+
+	}).catch(error => {
+        	console.error(error);
+	});
 }
 
 renderTableGamesLogs();
