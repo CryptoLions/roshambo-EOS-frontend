@@ -100,7 +100,7 @@ config.logger = {
 config.loggerSlack = {
       alerts: {
         type: 'slack',
-        token: 'xoxp-427384793792-427384794304-430899416147-74a7b39e18d8fbf04a2c33db85c9f7e0',
+        token: '',
         channel_id: 'dev-roshambo',
         username: 'System bot',
       }
