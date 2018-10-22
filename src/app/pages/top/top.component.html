@@ -1,0 +1,23 @@
+<img src="/assets/images/pac.svg" alt="" *ngIf="tableLoader">
+<h1>Score Table</h1>
+<div class="uk-container uk-width-1-2 table-top" *ngIf="!tableLoader">
+    <table class="uk-table uk-table-small uk-table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Account</th>
+                <th>Games played</th>
+                <th>Wins</th>
+            </tr>
+        </thead>
+        <tbody>
+        	<tr *ngFor="let account of sortedRank?.table_winners; let index = index;">
+        		<td>{{ index + 1 }}</td>
+        		<td>{{ account?.player }}</td>
+        		<td>{{ account?.games_played }}</td>
+        		<td>{{ account?.games_win }}</td>
+        	</tr>
+        </tbody>
+    </table>
+</div>
+<h1>Games Log</h1>

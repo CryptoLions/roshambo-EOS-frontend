@@ -1,0 +1,35 @@
+<p class="game-icons">
+    <i class="fal fa-hand-rock uk-card uk-card-default uk-card-body uk-animation-slide-left-medium"></i>
+    <i class="fal fa-hand-paper uk-card uk-card-default uk-card-body uk-animation-slide-bottom-medium"></i>
+    <i class="fal fa-hand-scissors uk-card uk-card-default uk-card-body uk-animation-slide-right-medium"></i>
+</p> 
+<div *ngIf="!connected">
+  <p class="uk-margin-medium uk-text-lead">
+                Welcome to 
+                <strong class="color-white">roshambo</strong> game created by 
+                <strong class="color-white">Cryptolions</strong> team <br class="uk-visible@s">
+                and powered on <strong class="color-white">EOS</strong> blockchain.
+  </p> 
+  <div uk-grid="" class="uk-child-width-auto uk-grid-medium uk-flex-inline uk-flex-center uk-grid">
+    <div class="uk-first-column">
+       <a class="uk-button uk-button-primary tm-button-primary uk-button-large tm-button-large uk-visible@s" (click)="initScatter()">connect scatter</a> 
+    </div>
+  </div>
+</div>
+
+<div *ngIf="connected">
+  <div class="uk-margin-medium uk-text-lead">Please enter oponents <strong class="color-white">EOS</strong> account name and  
+    <br/> press create the <strong class="color-white">game</strong>. Its totaly <strong class="color-white">free</strong>
+  </div>
+  <div class="uk-inline container-input" id="recentPlayers" *ngIf="recentPlayers.length">
+       <small>Recent players: </small><div class='uk-label' *ngFor="let player of recentPlayers"  (click)='createGame(player)'>{{ player }}</div>
+  </div>
+   <div class="uk-margin">
+      <div class="uk-inline container-input">
+          <span class="uk-form-icon" uk-icon="icon: user"></span>
+          <input class="uk-input" id="inp_create_game_challenger" type="text" placeholder="Enter EOS account you'd like cause for a fight" [(ngModel)]="challenger">
+      </div>
+      <!--<button class="uk-button uk-button-primary" (click)="createGame(challenger)" id="btn_create">Create</button>-->
+    </div>
+   <button class="uk-button uk-button-primary" type="button" (click)="createGame(challenger)">Create</button>
+</div>

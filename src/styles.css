@@ -1,26 +1,29 @@
 @font-face {
     font-family: ProximaNova;
-    src: url(fonts/ProximaNova-Reg-webfont.woff2);
+    src: url(./assets/fonts/ProximaNova-Reg-webfont.woff2);
 }
 
 @font-face {
     font-family: ProximaNovaLight;
-    src: url(fonts/ProximaNova-Light-webfont.woff2);
+    src: url(./assets/fonts/ProximaNova-Light-webfont.woff2);
 }
 
 body, html {
 	display: block;
 	margin: 0;
-    background: url("./imgs/section-background.svg") 50% 17vh no-repeat,linear-gradient(to left top, #09c5f9, #3483d9) 0 0 no-repeat;
+    background: url("./assets/images/section-background.svg") 50% 17vh no-repeat,linear-gradient(to left top, #09c5f9, #3483d9) 0 0 no-repeat;
     color: #fff;
     font-family: ProximaNova, "Helvetica Neue", Arial, sans-serif !important;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    height: 100%;
 }
 .uk-label{
 	background: #3387db;
 }
-#recentPlayers{
-	display: none;
+.uk-offcanvas-content{
+	position: relative;
+	height: 100%;
 }
 #recentPlayers .uk-label{
 	margin-left: 10px;
@@ -35,20 +38,23 @@ body, html {
 	display: none;
 }
 #gamesLog{
-	display: none;
-	height: 130px;
-	overflow-y: scroll; 
+	/*max-height: 230px;
+	overflow-y: scroll;*/
+	margin-top: 35px;
+}
+#btn_create{
+	border-radius: 0;
 }
 .uk-section-small{
 	padding-top: 5px;
-    padding-bottom: 25px;
+    padding-bottom: 10px;
 }
 #gameContainer{
 	margin-bottom: 20px;
 }
-.btn_restart{
-	display: none;
-	margin-left: 20px;
+.table-top{
+	max-height: 300px;
+	overflow-y: scroll;
 }
 
 .uk-h1, .uk-h2, .uk-h3, .uk-h4, .uk-h5, .uk-h6, h1, h2, h3, h4, h5, h6{
@@ -81,6 +87,10 @@ body, html {
 #gh_eoswebnetbp1_hstatus .marg_btm_5{
 	border: 1px solid #25a2e8;
 }
+.btn_restart{
+	margin-left: 20px;
+}
+
 .game-icons{
 	font-size: 100px;
 }
@@ -140,9 +150,6 @@ body, html {
 .color-white{
  	color: #fff !important;
 }
-.login-menu{
-	display: none;
-}
 #userContainer{
 	padding: 15px 0;
 }
@@ -200,12 +207,6 @@ body, html {
     height: 15px;
     position: relative;
 }
-.callsCounterAlertH{
-	display: none;
-}
-.callsCounterAlert{
-	display: none;
-}
 .alert-container span{
     margin: 0 auto;
     display: table !important;
@@ -214,14 +215,8 @@ body, html {
 	position: relative;
 }
 .header-history{
-	margin-top: 5px;
+	margin-top: -25px;
 	margin-bottom: 5px;
-}
-#gameCallsZero{
-	display: none;
-}
-#gameCallsHZero{
-	display: none;
 }
 .hash-container{
 	display: block;
@@ -238,6 +233,35 @@ body, html {
 	font-weight: bold;
 	text-decoration: underline;
 }
+.uk-icon{
+	font-size: 18px;
+}
+.uk-margin-small-right{
+	margin-right: 7px;
+}
+.uk-subnav{
+	display: block;
+}
+.container-table-log{
+	width: 65% !important;
+}
+.gamel-log-table-player{
+	margin-right: 15px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #pl_status{
@@ -280,9 +304,7 @@ body, html {
 }
 .msg_bgr_g {
 	background: #0ec759;
-}
-.msg_bgr_r {
-	background: #FF4216;
+	color: #fff;
 }
 .move-two{
 	text-decoration: underline;
@@ -344,6 +366,10 @@ body, html {
 .msg_bgr_g:after {
 	border-left-color: #0ec759;
 }
+.msg_bgr_r {
+	background: #FF4216;
+	color: #fff;
+}
 .msg_bgr_r:after {
 	border-left-color: #FF4216;
 }
@@ -362,9 +388,11 @@ body, html {
 	color: #3483d9;
 }
 .msg_bgl_g {
+	color: #fff;
 	background: #0ec759;
 }
 .msg_bgl_r {
+	color: #fff;
 	background: #FF4216;
 }
 
@@ -400,10 +428,8 @@ body, html {
 
 .winner{
 	color: #15F175;
-	display:none;
 }
 
 .looser{
 	color: #FF4216;
-	display:none;
 }

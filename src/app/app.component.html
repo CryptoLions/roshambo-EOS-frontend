@@ -1,0 +1,126 @@
+<div class="uk-offcanvas-content">
+      <div class="uk-container uk-container-expand">
+        <nav class="uk-navbar">
+          <div class="uk-navbar-left logo-container">
+            <a href="/"><i class="fal fa-hand-scissors"></i> <span id="logoText"> roshambo</span></a>
+          </div>
+          <div class="uk-navbar-right nav-container">
+            <ul class="uk-navbar-nav uk-visible@m">
+              <li>
+                  <a routerLink="/" class="uk-button uk-button-text">home</a>
+              </li> 
+              <li class="login-menu" *ngIf="connected">
+                  <span class="alert-container" *ngIf="GAMES_M?.length"><span id="callsCounterAlertH">{{ GAMES_M?.length }}</span></span>
+                  <a class="uk-button uk-button-text">my games</a>
+                  
+                  <div uk-dropdown>
+                      <ul class="uk-nav uk-dropdown-nav" id="gameCallsH">
+                          <li class='uk-active' *ngFor="let host of GAMES_M"><a [routerLink]="['mygame', host]">{{ host }}</a></li>
+                          <li id="gameCallsHZero" *ngIf="GAMES_M?.length === 0">my games not found</li>
+                      </ul>
+                  </div>
+              </li>
+              <li>
+                  <a routerLink="/top100" class="uk-button uk-button-text">top 100</a>
+              </li>
+              <li class="login-menu" *ngIf="connected">
+                  <span class="alert-container" *ngIf="GAMES_C?.length"><span id="callsCounterAlert">{{ GAMES_C?.length }}</span></span>
+                  <a class="uk-button uk-button-text">game calls</a>
+                  
+                  <div uk-dropdown>
+                      <ul class="uk-nav uk-dropdown-nav" id="gameCalls">
+                        <li class='uk-active' *ngFor="let host of GAMES_C"><a [routerLink]="['call', host]">{{ host }}</a></li>
+                          <li id="gameCallsZero" *ngIf="GAMES_C?.length === 0">game calls not found</li>
+                      </ul>
+                  </div>
+              </li>
+              <li>
+                    <a class="uk-button uk-button-text">github</a>
+                    <div uk-dropdown>
+                      <ul class="uk-nav uk-dropdown-nav" id="gameCalls">
+                          <li><a href="https://github.com/CryptoLions/roshambo-EOS-frontend" target="_blank">Front-end</a></li>
+                          <li><a href="https://github.com/CryptoLions/roshambo-EOS-contract" target="_blank">Smart Contract</a></li>
+                      </ul>
+                     </div>
+               </li>
+               <li class="uk-inline login-menu" id="userContainer" *ngIf="connected">
+                   <span class="user-logo">
+                       <i class="fas fa-user-circle"></i>
+                   </span>
+                   <span id="userName">{{ userName }}</span>
+                   <div uk-dropdown>
+                       <ul class="uk-nav uk-dropdown-nav">
+                           <li class="uk-active"><a (click)="logout()">Logout</a></li>
+                       </ul>
+                   </div>
+               </li> 
+            </ul>
+          </div>
+        </nav>
+      </div>
+
+      <div uk-height-viewport="offset-top: true; offset-bottom: true" class="uk-section uk-section-small uk-flex uk-flex-middle uk-text-center" style="box-sizing: border-box; min-height: calc((100vh - 80px) - 103px);">
+        <div class="uk-width-1-1">
+          <div class="uk-container">
+              <router-outlet></router-outlet>
+
+              <div class="uk-container uk-width-1-2 container-table-log" *ngIf="gamesPlayed?.history" id="gamesLog">
+                <table class="uk-table uk-table-small uk-table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Date</th>
+                            <th>Player 1</th>
+                            <th>Player 2</th>
+                            <th>Winner</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let account of gamesPlayed?.history; let index = index;">
+                          <td>{{ gamesPlayed?.allGames - index }}</td>
+                          <td>{{ moment(account?.createdAt).format('lll') }}</td>
+                          <td> <span class="gamel-log-table-player">{{ account?.act?.data?.host }}</span>
+                              <i class="fal fa-hand-rock" *ngIf="account?.act?.data?.ph_move === 1"></i>
+                              <i class="fal fa-hand-paper" *ngIf="account?.act?.data?.ph_move === 2"></i>
+                              <i class="fal fa-hand-scissors" *ngIf="account?.act?.data?.ph_move === 3"></i>
+                          </td>
+                          <td> <span class="gamel-log-table-player">{{ account?.act?.data?.challenger }}</span>
+                              <i class="fal fa-hand-rock" *ngIf="account?.act?.data?.pc_move === 1"></i>
+                              <i class="fal fa-hand-paper" *ngIf="account?.act?.data?.pc_move === 2"></i>
+                              <i class="fal fa-hand-scissors" *ngIf="account?.act?.data?.pc_move === 3"></i>
+                          </td>
+                          <td>{{ (account?.act?.data?.winner === 'self') ? '0 : 0' : account?.act?.data?.winner }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+              </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="uk-section-small bottom-footer">
+              <div class="uk-container uk-position-relative">
+                <ul uk-margin="" class="uk-subnav tm-subnav uk-margin-remove-bottom">
+                  <li class="uk-first-column">
+                    <a href="https://github.com/CryptoLions/roshambo-EOS-frontend" target="_blank" class="uk-text-lowercase"> 
+                      <span class="uk-margin-small-right uk-icon">
+                        <i class="fal fa-code-merge"></i>
+                      </span>version {{version}}</a>
+                  </li> 
+                  <li>
+                    <a href="https://twitter.com/EOS_CryptoLions" target="_blank" class="uk-text-lowercase">
+                      <span class="uk-margin-small-right uk-icon">
+                        <i class="fab fa-twitter"></i>
+                      </span>@cryptolions</a>
+                  </li> 
+                  <li>
+                    <a href="https://cryptolions.io" target="_blank"> 
+                      <span class="uk-margin-small-right uk-icon">
+                        <i class="fab fa-gitter"></i>
+                      </span>cryptolions.io</a>
+                  </li>
+                </ul>
+              </div>
+      </div>
+</div>
+

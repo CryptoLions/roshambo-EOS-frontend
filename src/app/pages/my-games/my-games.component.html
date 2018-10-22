@@ -1,0 +1,78 @@
+<img src="/assets/images/pac.svg" alt="" *ngIf="tableLoader">
+
+<div class="row" id="gh_{{host}}" id="main-container-game-start" *ngIf="!tableLoader">
+	<div class="col-sm-3">
+		<span class="user-game-name" id="gh_{{host}}_hname"><b>{{ host }}</b></span> <br>
+		<div id="pl_status">
+			<span id="gh_{{host}}_hstatus" class="text-center">
+				<span class='msg_bgl msg_bgl_y' *ngIf="game?.accepted === 0">Hi, <BR> I am waiting your Join </span>
+				<span class='msg_bgl msg_bgl_y' *ngIf="game?.ph_move_hash !== nullHash && game?.pc_move_hash === nullHash">waiting on oponent move to confirm own move...</span>
+				<span class='msg_bgl msg_bgl_y' *ngIf="game?.ph_move_hash !== nullHash && game?.pc_move_hash !== nullHash && game?.ph_move === 0">Please <a class='move-two' (click)="moveSecond(game?.host, game?.challenger , 1)">confirm</a> your move...</span>
+			</span>
+			<span class='msg_bgl msg_bgl_y' [ngClass]="{ 'msg_bgl_g': game?.winner === host, 'msg_bgl_r': game?.winner !== host && game?.winner !== 'none' && game?.winner !== 'self'}" *ngIf="game?.ph_move_hash !== nullHash && game?.pc_move_hash !== nullHash && game?.ph_move !== 0">Move confirmed: <span [innerHtml]="icons[game?.ph_move]"></span></span>
+
+			<div *ngIf="game?.ph_move_hash === nullHash">
+			 	<button class="uk-button uk-button-primary marg_btm_5" type="button" id="btn_move1" (click)="moveFirst(1, game?.host,  game?.challenger, 1)" >
+					<span [innerHtml]="icons[1]"></span>
+				</button>
+				<button class="uk-button uk-button-primary marg_btm_5" type="button" id="btn_move1" (click)="moveFirst(2, game?.host , game?.challenger, 1)" >
+					<span [innerHtml]="icons[2]"></span>
+				</button>
+				<button class="uk-button uk-button-primary marg_btm_5" type="button" id="btn_move1" (click)="moveFirst(3, game?.host, game?.challenger, 1)" >
+					<span [innerHtml]="icons[3]"></span>
+				</button>
+			</div>
+
+		</div>
+		<i class="fas fa-user-ninja user-circle-icon"></i>
+		<h1 class="winner" id="winnerh_{{host}}" *ngIf="game?.winner !== 'none' && game?.winner === host">WINNER</h1>
+		<h1 class="looser" id="looserh_{{host}}" *ngIf="game?.winner !== 'none' && game?.winner !== host && game?.winner !== 'self' ">LOSER</h1>
+	</div>
+	<div class="col-sm-5 main-game-container">
+		<br>
+		<h3 class="header-history">History</h3>
+		<div id="gh_{{host}}_history" class="game-history">
+			<div> <b>[ {{ host }} ]</b>  started game to <b>[ {{ game?.challenger }} ]</b>  </div>
+			<div *ngIf="game?.accepted !== 0"> <b>[ {{ game?.challenger }} ]</b> accepted.</div>
+			<div *ngIf="game?.ph_move_hash !== nullHash"> [ {{ host }} ] sent move hash: <strong (click)="copyHash(game?.ph_move_hash)" class="hash-container"> {{ game?.ph_move_hash }} </strong> </div>
+			<div *ngIf="game?.pc_move_hash !== nullHash"> [ {{ game?.challenger }} ] sent move hash: <strong (click)="copyHash(game?.pc_move_hash)" class="hash-container"> {{ game?.pc_move_hash }} </strong> </div>
+			
+			<div *ngIf="game?.pc_move_hash !== nullHash && game?.pc_move_hash !== nullHash && game?.pc_move !== 0 ">
+				<b>[ {{ game?.challenger }} ]</b> Confirmed Move: <span [innerHtml]="icons[game?.pc_move]"></span><br> 
+				[move: {{ game?.pc_move }}, nonce: {{ game?.pc_move_nonce }} =  {{ game?.pc_move }} {{ game?.pc_move_nonce }} 
+				<a href='https://md5calc.com/hash/sha256/{{game.pc_move}}{{game.pc_move_nonce}}' target='_blank'>check</a>]
+			</div>
+			
+			<div *ngIf="game?.pc_move_hash !== nullHash && game?.pc_move_hash !== nullHash && game?.ph_move !== 0 ">
+				<b>[ {{ game?.challenger }} ]</b> Confirmed Move: <span [innerHtml]="icons[game?.ph_move]"></span><br> 
+				[move: {{ game?.ph_move }}, nonce: {{ game?.ph_move_nonce }} =  {{ game?.ph_move }} {{ game?.ph_move_nonce }} 
+				<a href='https://md5calc.com/hash/sha256/{{game.ph_move}}{{game.pc_move_nonce}}' target='_blank'>check</a>]
+			</div>
+
+		</div>
+	</div>
+	<div class="col-sm-3">
+		<span class="user-game-name" id="gh_{{host}}_cname"><b>{{ game?.challenger }}</b></span> <br>
+		<div id="pr_status">
+			<span id="gh_{{host}}_cstatus" class="text-center">
+				<span class='msg_bgr msg_bgr_y' *ngIf="game?.accepted === 0">Looking oportunity to Join</span>
+				<span class='msg_bgr msg_bgr_y' *ngIf="game?.pc_move_hash === nullHash && game?.ph_move_hash === nullHash">waiting for oponent move...</span>
+				<span class='msg_bgr msg_bgr_y' *ngIf="game?.pc_move_hash !== nullHash && game?.ph_move_hash === nullHash">I am waiting your turn to confirm my move...</span>
+				<span class='msg_bgr msg_bgr_y' *ngIf="game?.pc_move_hash === nullHash && game?.ph_move_hash !== nullHash">waiting for oponent move...</span>
+				<span class='msg_bgr msg_bgr_y' *ngIf="game?.ph_move_hash !== nullHash && game?.pc_move_hash !== nullHash && game?.pc_move === 0">I'll confirm my move asap...</span>
+				<span class='msg_bgr msg_bgr_y' *ngIf="game?.ph_move_hash !== nullHash && game?.pc_move_hash !== nullHash && game?.pc_move !== 0" [ngClass]="{ 'msg_bgr_g': game?.winner === game?.challenger, 'msg_bgr_r': game?.winner !== game?.challenger && game?.winner !== 'none' && game?.winner !== 'self'}">Move confirmed: <span [innerHtml]="icons[game?.pc_move]"></span></span>
+			</span>
+		</div>
+		<i class="fas fa-user-astronaut user-circle-icon"></i>
+		<h1 class="winner" id="winnerc_{{host}}" *ngIf="game?.winner !== 'none' && game?.winner === game?.challenger">WINNER</h1>
+		<h1 class="looser" id="looserc_{{host}}" *ngIf="game?.winner !== 'none' && game?.winner !== game?.challenger && game?.winner !== 'self' ">LOSER</h1>
+	</div>
+</div>
+
+<button class="uk-button uk-button-primary" type="button" (click)="closeGame()" id="btn_cancel" *ngIf="!tableLoader">Close Game</button>
+<span *ngIf="!tableLoader && game?.winner !== 'none'" class="btn_restart">or</span>
+<button class="uk-button uk-button-primary btn_restart" type="button" (click)="restart()" id="btn_cancel" *ngIf="!tableLoader && game?.winner !== 'none'">Resrtart</button>
+
+
+
+

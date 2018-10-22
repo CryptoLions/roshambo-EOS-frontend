@@ -1,19 +1,111 @@
-var PRODUCTION = false;
-var chain = '038f4b0fc8ff18a4f0842a8f0564611f6e96e8535901dd45e43ac8691a1c4dca'; // mainnet 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906'
+/*
+  App configuration test local created by eoswebnetbp1 (31.08.18)
+*/
 
-var network = {
-    blockchain: 'eos',
-    host: 'junglehistory.cryptolions.io',
-    port: 18888,
-    protocol: 'http',
-    expireInSeconds: 120,
-    chainId: chain
+const path = require('path');
+let config = {};
+
+// production mod
+config.PROD = false;
+
+// mongo uri and options
+config.MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/ROSHAMBO_DEV';
+config.MONGO_OPTIONS = {
+    socketTimeoutMS: 30000,
+    keepAlive: true,
+    reconnectTries: 30000,
+    useNewUrlParser: true
 };
 
-var gcontract = "rpstester123";
+// eosjs
+config.eosConfig = {
+  chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
+  httpEndpoint: 'http://bp.cryptolions.io',
+  expireInSeconds: 60,
+  broadcast: true,
+  debug: false,
+  sign: true,
+  logger: {
+    //log: console.log,
+    error: console.error
+  }
+};
 
-eos = Eos({
-	httpEndpoint: 'http://junglehistory.cryptolions.io:18888',
-	chainId: chain,
-	verbose: false
-});
+// scatter wallet
+config.walletAPI = {
+        host: 'nodes.get-scatter.com',
+        port: '',
+        protocol: 'https'
+};
+
+// api url for producers list
+config.customChain = 'https://nodes.get-scatter.com';
+
+// api url for history
+config.daemonsON = true;
+config.historyChain = 'https://history.cryptolions.io';
+
+config.updateHistoryTime = 60; // every 5 sec
+
+config.apiV = 'v1'; // api version
+
+// log4js
+config.logger = {
+    appenders: {
+      out:  {
+            type: 'stdout'
+      },
+      server: {
+        type: 'file',
+        filename: path.join(__dirname, './server/logs/server.log'),
+      },
+      socket_io: {
+        type: 'file',
+        filename: path.join(__dirname, './server/logs/socket_io.log'),
+      },
+      history_daemon: {
+        type: 'file',
+        filename: path.join(__dirname, './server/logs/history_daemon.log'),
+      },
+      top_100: {
+        type: 'file',
+        filename: path.join(__dirname, './server/logs/top_100.log'),
+      }
+    },
+    categories: {
+        default:       {
+          appenders: ['out'],
+          level:     'trace'
+        },
+        server:  {
+          appenders: ['out', 'server'],
+          level:     'trace'
+        },
+        socket_io:  {
+          appenders: ['out', 'socket_io'],
+          level:     'trace'
+        },
+        history_daemon:  {
+          appenders: ['out', 'history_daemon'],
+          level:     'trace'
+        },
+        top_100:  {
+          appenders: ['out', 'top_100'],
+          level:     'trace'
+        }
+    }
+};
+
+// slack notifications
+config.loggerSlack = {
+      alerts: {
+        type: 'slack',
+        token: 'xoxp-427384793792-427384794304-430899416147-74a7b39e18d8fbf04a2c33db85c9f7e0',
+        channel_id: 'dev-roshambo',
+        username: 'System bot',
+      }
+};
+
+module.exports = config;
+
+

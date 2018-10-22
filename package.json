@@ -1,24 +1,70 @@
 {
-  "name": "roshambo",
-  "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
-  "dependencies": {
-    "connect": "^2.8.8"
-  },
-  "devDependencies": {},
+  "name": "roshambo-angular",
+  "version": "0.0.0",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "ng": "ng",
+    "start": "ng serve --proxy-config proxy.conf.json",
+    "build": "ng build",
+    "build_prod": "ng build --prod",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/orange1337/roshambo.git"
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "^6.0.3",
+    "@angular/common": "^6.0.3",
+    "@angular/compiler": "^6.0.3",
+    "@angular/core": "^6.0.3",
+    "@angular/forms": "^6.0.3",
+    "@angular/http": "^6.0.3",
+    "@angular/platform-browser": "^6.0.3",
+    "@angular/platform-browser-dynamic": "^6.0.3",
+    "@angular/router": "^6.0.3",
+    "@types/moment": "^2.13.0",
+    "appmetrics-dash": "~3.4.0",
+    "appmetrics-prometheus": "~1.0.1",
+    "async": "^2.6.1",
+    "body-parser": "^1.18.3",
+    "compression": "^1.7.3",
+    "cookie-parser": "^1.4.3",
+    "core-js": "^2.5.4",
+    "eosjs": "^16.0.9",
+    "express": "^4.16.3",
+    "fs": "0.0.1-security",
+    "helmet": "^3.13.0",
+    "log4js": "^3.0.5",
+    "moment": "^2.22.2",
+    "mongodb": "^3.1.7",
+    "mongoose": "^5.3.2",
+    "node-cron": "^1.2.1",
+    "node-gyp": "^3.8.0",
+    "path": "^0.12.7",
+    "request": "^2.88.0",
+    "rxjs": "^6.0.0",
+    "slack": "^11.0.1",
+    "socket.io": "^2.1.1",
+    "zone.js": "^0.8.26"
   },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/orange1337/roshambo/issues"
-  },
-  "homepage": "https://github.com/orange1337/roshambo#readme"
+  "devDependencies": {
+    "@angular-devkit/build-angular": "~0.6.8",
+    "@angular/cli": "~6.0.8",
+    "@angular/compiler-cli": "^6.0.3",
+    "@angular/language-service": "^6.0.3",
+    "@types/jasmine": "~2.8.6",
+    "@types/jasminewd2": "~2.0.3",
+    "@types/node": "~8.9.4",
+    "codelyzer": "~4.2.1",
+    "jasmine-core": "~2.99.1",
+    "jasmine-spec-reporter": "~4.2.1",
+    "karma": "~1.7.1",
+    "karma-chrome-launcher": "~2.2.0",
+    "karma-coverage-istanbul-reporter": "~2.0.0",
+    "karma-jasmine": "~1.1.1",
+    "karma-jasmine-html-reporter": "^0.2.2",
+    "protractor": "^5.4.1",
+    "ts-node": "~5.0.1",
+    "tslint": "~5.9.1",
+    "typescript": "~2.7.2"
+  }
 }
