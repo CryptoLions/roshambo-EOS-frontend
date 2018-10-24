@@ -52,7 +52,10 @@ export class MyGamesComponent implements OnInit, OnDestroy {
   	   this.host = this.MainService.accountName;
   	   this.tableLoader = (!this.game) ? true : false;
   	   console.log(this.game);
-       if (this.game && this.game.ph_move_hash !== this.nullHash && this.game.pc_move_hash !== this.nullHash && !this.confirm && this.game.winner === 'none'){
+       if (this.game && this.game.ph_move_hash !== this.nullHash && 
+           this.game.pc_move_hash !== this.nullHash && 
+           !this.confirm && this.game.winner === 'none' && !this.game.ph_move)
+       {
            this.moveSecond(this.game.host, this.game.challenger, 1);
            this.confirm = true;
            console.log('Move confirmed !!!');

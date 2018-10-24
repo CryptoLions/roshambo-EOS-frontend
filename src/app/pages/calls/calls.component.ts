@@ -43,7 +43,10 @@ export class CallsComponent implements OnInit, OnDestroy {
   	   this.game = this.MainService.GAMES_C[this.host];
   	   this.tableLoader = (!this.game) ? true : false;
   	   console.log(this.game, this.host);
-       if (this.game && this.game.ph_move_hash !== this.nullHash && this.game.pc_move_hash !== this.nullHash && !this.confirm && this.game.winner === 'none'){
+       if (this.game && this.game.ph_move_hash !== this.nullHash && 
+           this.game.pc_move_hash !== this.nullHash && 
+           !this.confirm && this.game.winner === 'none' && !this.game.pc_move)
+       {
            this.moveSecond(this.game.host, this.game.challenger, 1);
            this.confirm = true;
            console.log('Move confirmed !!!');
