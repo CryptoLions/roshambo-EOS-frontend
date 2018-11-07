@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
+//import {ScatterJS} from 'scatterjs-core';
+//import {ScatterEOS} from 'scatterjs-plugin-eosjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,33 +10,50 @@ export class MainService {
   
   WINDOW: any = window;
   eos = this.WINDOW.Eos(environment.Eos);
-  accountName = '';
+  accountName: any = '';
   GAMES_C = {};
   GAMES_M = {};
   move = {};
   nonce = {};
   navigator: any = navigator;
+  ScatterJS;
 
-  constructor(){}
+  constructor(){
+     this.WINDOW.ScatterJS.plugins(new this.WINDOW.ScatterEOS());
+  }
 
   returnEosNet(){
   	 return this.eos;
   }
 
   initScatter(callback){
-		this.WINDOW.scatter.suggestNetwork(environment.network).then((selectedNetwork) => {
-			const requiredFields = { accounts: [{ blockchain: 'eos', chainId: environment.network.chainId }] };
-			
-			this.eos = this.WINDOW.scatter.eos(environment.network, this.WINDOW.Eos, { chainId: environment.network.chainId }, environment.network.protocol);
-			this.WINDOW.scatter.getIdentity(requiredFields).then(identity => {
-				if (identity.accounts.length === 0) {
-					return;
-				}
-				localStorage.setItem('user', 'connected');
-				this.accountName = identity.accounts[0].name;
-				callback(null, identity.accounts[0].name);
-			}).catch(error => this.showScatterError(error, callback));
-		}).catch(error => this.showScatterError(error, callback));
+    this.WINDOW.ScatterJS.scatter.connect('roshambo').then(connected => {
+      if(!connected) {
+          return this.showScatterError('Can\'t connect to Scatter', callback);
+      } 
+      
+      this.ScatterJS = this.WINDOW.ScatterJS.scatter;
+      this.WINDOW.scatter = null;
+      
+      console.log("this.ScatterJS", this.ScatterJS);
+
+		  const requiredFields = { accounts: [environment.network] };
+
+		  this.eos = this.ScatterJS.eos(environment.network, this.WINDOW.Eos, { chainId: environment.network.chainId }, environment.network.protocol);
+      
+		  this.ScatterJS.getIdentity(requiredFields).then(identity => {
+		  	if (identity.accounts.length === 0) {
+		  		return;
+		  	}
+		  	localStorage.setItem('user', 'connected');
+		  	
+         let objectIdentity = this.WINDOW.ScatterJS.scatter.identity.accounts.find(x => x.blockchain === 'eos'); //identity.accounts[0].name;
+         this.accountName = (objectIdentity && objectIdentity.name) ? objectIdentity.name : null;
+		  	 callback(null, this.accountName);
+		  }).catch(error => this.showScatterError(error, callback));
+    }).catch(error => {
+        this.showScatterError(error, callback);
+    });
   }
 
   showScatterError(error, callback){
@@ -71,7 +90,8 @@ export class MainService {
 
   logout(){
 	localStorage.setItem('user', 'disconnect');
-	this.WINDOW.scatter.forgetIdentity().then(() => {
+  console.log(this.ScatterJS);
+	this.WINDOW.ScatterJS.scatter.forgetIdentity().then(() => {
         window.location.href = "/";
     }).catch(err => {
         console.error(err);

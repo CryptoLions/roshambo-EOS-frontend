@@ -81,7 +81,7 @@ export class AppComponent implements OnInit {
      this.createGamesTable();
      setInterval( () => { this.createNavDropdowns() }, 1000);
 	   if (this.connected){
-           if (!this.WINDOW.scatter){
+           if (!this.WINDOW.ScatterJS){
                 document.addEventListener('scatterLoaded', () => {
                       this.initScatter();
                 });
