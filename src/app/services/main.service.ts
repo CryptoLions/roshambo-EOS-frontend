@@ -77,6 +77,10 @@ export class MainService {
 		msg = "Voting Transaction canceled (you rejected signature request)";
 	}
 
+  if (error.code == 500){
+    msg = "You can't close game in the middle";
+  }
+
 	this.WINDOW.UIkit.notification({
     	message: msg,
     	status: 'danger',
@@ -88,14 +92,25 @@ export class MainService {
   }
 
 
+  showErr(error){
+      let error_ = JSON.parse(error);
+      this.WINDOW.UIkit.notification({
+        message: error_.error.details[0].message,
+        status: 'danger',
+        pos: 'top-center',
+        timeout: 3000
+       });
+  }
+
+
   logout(){
-	localStorage.setItem('user', 'disconnect');
-  console.log(this.ScatterJS);
-	this.WINDOW.ScatterJS.scatter.forgetIdentity().then(() => {
-        window.location.href = "/";
-    }).catch(err => {
-        console.error(err);
-    });
+	  localStorage.setItem('user', 'disconnect');
+    console.log(this.ScatterJS);
+	  this.WINDOW.ScatterJS.scatter.forgetIdentity().then(() => {
+          window.location.href = "/";
+      }).catch(err => {
+          console.error(err);
+      });
   }
 
   createGame(challenger){
@@ -127,16 +142,10 @@ export class MainService {
     contract.create(this.accountName, challenger, { authorization: [this.accountName]}).then((res) => {
          window.location.href = "/mygame/" + this.accountName;
     }).catch(error => {
-        let error_ = JSON.parse(error);
-        this.WINDOW.UIkit.notification({
-          message: error_.error.details[0].message,
-          status: 'danger',
-          pos: 'top-center',
-          timeout: 3000
-         });
+          this.showErr(error);
       });
     }).catch(error => {
-          console.error(error);
+          this.showErr(error);
     });
   }
 
@@ -145,17 +154,10 @@ export class MainService {
       contract.restart(this.accountName, { authorization: [this.accountName]}).then((res) => {
             location.reload();
       }).catch(error => {
-            var error_ = JSON.parse(error);
-            console.log(error_.error.details[0].message);
-            this.WINDOW.UIkit.notification({
-              message: error_.error.details[0].message,
-              status: 'danger',
-              pos: 'top-center',
-              timeout: 3000
-            });
+            this.showErr(error);
       });
     }).catch(error => {
-            console.error(error);
+            this.showErr(error);
     });
   }
 
@@ -268,11 +270,11 @@ export class MainService {
     this.eos.contract(environment.gcontract).then((contract) => {
       contract.close(this.accountName, challenger, { authorization: [this.accountName]}).then((res) => {
         window.location.href = "/";
-      }).catch(error => {
-            console.error(error);
+      }).catch((error: any) => {
+            this.showErr(error);
       });
     }).catch(error => {
-            console.error(error);
+            this.showErr(error);
     });
   }
 
@@ -297,10 +299,10 @@ export class MainService {
         //getMyGames();
         //updateGameView();
       }).catch(error => {
-            console.error(error);
+           this.showErr(error);
       });
     }).catch(error => {
-            console.error(error);
+           this.showErr(error);
     });
   }
 
@@ -325,10 +327,10 @@ export class MainService {
         //getMyGames();
         //updateGameView();
       }).catch(error => {
-            console.error(error);
+            this.showErr(error);
       });
     }).catch(error => {
-            console.error(error);
+            this.showErr(error);
     });
   }
 
