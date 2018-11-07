@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
+//import {ScatterJS} from 'scatterjs-core';
+//import {ScatterEOS} from 'scatterjs-plugin-eosjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,33 +10,50 @@ export class MainService {
   
   WINDOW: any = window;
   eos = this.WINDOW.Eos(environment.Eos);
-  accountName = '';
+  accountName: any = '';
   GAMES_C = {};
   GAMES_M = {};
   move = {};
   nonce = {};
   navigator: any = navigator;
+  ScatterJS;
 
-  constructor(){}
+  constructor(){
+     this.WINDOW.ScatterJS.plugins(new this.WINDOW.ScatterEOS());
+  }
 
   returnEosNet(){
   	 return this.eos;
   }
 
   initScatter(callback){
-		this.WINDOW.scatter.suggestNetwork(environment.network).then((selectedNetwork) => {
-			const requiredFields = { accounts: [{ blockchain: 'eos', chainId: environment.network.chainId }] };
-			
-			this.eos = this.WINDOW.scatter.eos(environment.network, this.WINDOW.Eos, { chainId: environment.network.chainId }, environment.network.protocol);
-			this.WINDOW.scatter.getIdentity(requiredFields).then(identity => {
-				if (identity.accounts.length === 0) {
-					return;
-				}
-				localStorage.setItem('user', 'connected');
-				this.accountName = identity.accounts[0].name;
-				callback(null, identity.accounts[0].name);
-			}).catch(error => this.showScatterError(error, callback));
-		}).catch(error => this.showScatterError(error, callback));
+    this.WINDOW.ScatterJS.scatter.connect('roshambo').then(connected => {
+      if(!connected) {
+          return this.showScatterError('Can\'t connect to Scatter', callback);
+      } 
+      
+      this.ScatterJS = this.WINDOW.ScatterJS.scatter;
+      this.WINDOW.scatter = null;
+      
+      console.log("this.ScatterJS", this.ScatterJS);
+
+		  const requiredFields = { accounts: [environment.network] };
+
+		  this.eos = this.ScatterJS.eos(environment.network, this.WINDOW.Eos, { chainId: environment.network.chainId }, environment.network.protocol);
+      
+		  this.ScatterJS.getIdentity(requiredFields).then(identity => {
+		  	if (identity.accounts.length === 0) {
+		  		return;
+		  	}
+		  	localStorage.setItem('user', 'connected');
+		  	
+         let objectIdentity = this.WINDOW.ScatterJS.scatter.identity.accounts.find(x => x.blockchain === 'eos'); //identity.accounts[0].name;
+         this.accountName = (objectIdentity && objectIdentity.name) ? objectIdentity.name : null;
+		  	 callback(null, this.accountName);
+		  }).catch(error => this.showScatterError(error, callback));
+    }).catch(error => {
+        this.showScatterError(error, callback);
+    });
   }
 
   showScatterError(error, callback){
@@ -58,6 +77,10 @@ export class MainService {
 		msg = "Voting Transaction canceled (you rejected signature request)";
 	}
 
+  if (error.code == 500){
+    msg = "You can't close game in the middle";
+  }
+
 	this.WINDOW.UIkit.notification({
     	message: msg,
     	status: 'danger',
@@ -69,13 +92,25 @@ export class MainService {
   }
 
 
+  showErr(error){
+      let error_ = JSON.parse(error);
+      this.WINDOW.UIkit.notification({
+        message: error_.error.details[0].message,
+        status: 'danger',
+        pos: 'top-center',
+        timeout: 3000
+       });
+  }
+
+
   logout(){
-	localStorage.setItem('user', 'disconnect');
-	this.WINDOW.scatter.forgetIdentity().then(() => {
-        window.location.href = "/";
-    }).catch(err => {
-        console.error(err);
-    });
+	  localStorage.setItem('user', 'disconnect');
+    console.log(this.ScatterJS);
+	  this.WINDOW.ScatterJS.scatter.forgetIdentity().then(() => {
+          window.location.href = "/";
+      }).catch(err => {
+          console.error(err);
+      });
   }
 
   createGame(challenger){
@@ -107,16 +142,10 @@ export class MainService {
     contract.create(this.accountName, challenger, { authorization: [this.accountName]}).then((res) => {
          window.location.href = "/mygame/" + this.accountName;
     }).catch(error => {
-        let error_ = JSON.parse(error);
-        this.WINDOW.UIkit.notification({
-          message: error_.error.details[0].message,
-          status: 'danger',
-          pos: 'top-center',
-          timeout: 3000
-         });
+          this.showErr(error);
       });
     }).catch(error => {
-          console.error(error);
+          this.showErr(error);
     });
   }
 
@@ -125,17 +154,10 @@ export class MainService {
       contract.restart(this.accountName, { authorization: [this.accountName]}).then((res) => {
             location.reload();
       }).catch(error => {
-            var error_ = JSON.parse(error);
-            console.log(error_.error.details[0].message);
-            this.WINDOW.UIkit.notification({
-              message: error_.error.details[0].message,
-              status: 'danger',
-              pos: 'top-center',
-              timeout: 3000
-            });
+            this.showErr(error);
       });
     }).catch(error => {
-            console.error(error);
+            this.showErr(error);
     });
   }
 
@@ -248,11 +270,11 @@ export class MainService {
     this.eos.contract(environment.gcontract).then((contract) => {
       contract.close(this.accountName, challenger, { authorization: [this.accountName]}).then((res) => {
         window.location.href = "/";
-      }).catch(error => {
-            console.error(error);
+      }).catch((error: any) => {
+            this.showErr(error);
       });
     }).catch(error => {
-            console.error(error);
+            this.showErr(error);
     });
   }
 
@@ -277,10 +299,10 @@ export class MainService {
         //getMyGames();
         //updateGameView();
       }).catch(error => {
-            console.error(error);
+           this.showErr(error);
       });
     }).catch(error => {
-            console.error(error);
+           this.showErr(error);
     });
   }
 
@@ -305,10 +327,10 @@ export class MainService {
         //getMyGames();
         //updateGameView();
       }).catch(error => {
-            console.error(error);
+            this.showErr(error);
       });
     }).catch(error => {
-            console.error(error);
+            this.showErr(error);
     });
   }
 
