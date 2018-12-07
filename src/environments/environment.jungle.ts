@@ -1,18 +1,18 @@
-const chain = '038f4b0fc8ff18a4f0842a8f0564611f6e96e8535901dd45e43ac8691a1c4dca'; 
+const chain = 'e70aaab8997e1dfce58fbfac80cbbb8fecec7b99cf982a9444273cbc64c41473'; 
 export const environment = {
 	production: true,
-	gcontract: 'rpstester123',
+	gcontract: 'roshambogame',
 	network : {
     	blockchain: 'eos',
-    	host: 'junglehistory.cryptolions.io',
-    	port: 18888,
-    	protocol: 'http',
+    	host: 'jungle2.cryptolions.io',
+    	port: 443,
+    	protocol: 'https',
     	expireInSeconds: 120,
     	chainId: chain
 	},
 	chain: chain,
 	Eos: {
-		httpEndpoint: 'http://junglehistory.cryptolions.io',
+		httpEndpoint: 'https://jungle2.cryptolions.io',
 		chainId: chain,
 		verbose: false
 	},

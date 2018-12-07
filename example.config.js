@@ -8,6 +8,8 @@ let config = {};
 // production mod
 config.PROD = false;
 
+config.saveRequestsMetrics = true;
+
 // mongo uri and options
 config.MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/ROSHAMBO_DEV';
 config.MONGO_OPTIONS = {

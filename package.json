@@ -22,8 +22,6 @@
     "@angular/platform-browser-dynamic": "^6.0.3",
     "@angular/router": "^6.0.3",
     "@types/moment": "^2.13.0",
-    "appmetrics-dash": "~3.4.0",
-    "appmetrics-prometheus": "~1.0.1",
     "async": "^2.6.1",
     "body-parser": "^1.18.3",
     "compression": "^1.7.3",
@@ -46,6 +44,7 @@
     "scatterjs-plugin-eosjs": "^1.3.10",
     "slack": "^11.0.1",
     "socket.io": "^2.1.1",
+    "swagger-stats-lions": "0.0.5",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
