@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
   GAMES_C = [];
   moment = moment;
   version = environment.version;
+  configStyle = environment.style;
 
   initScatter(){
    	this.MainService.initScatter((err, account) => {
@@ -75,10 +76,16 @@ export class AppComponent implements OnInit {
             }
           }
       });
+  }
+
+  enebleConfig(){
+      window.document.title = this.configStyle.title;
+      window.document.getElementsByTagName("body")[0].style.background = this.configStyle.body.background;
   }           
 
 	ngOnInit(){
      this.createGamesTable();
+     this.enebleConfig();
      setInterval( () => { this.createNavDropdowns() }, 1000);
 	   if (this.connected){
            if (!this.WINDOW.ScatterJS){

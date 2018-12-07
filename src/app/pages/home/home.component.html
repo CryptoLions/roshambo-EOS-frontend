@@ -12,7 +12,7 @@
   </p> 
   <div uk-grid="" class="uk-child-width-auto uk-grid-medium uk-flex-inline uk-flex-center uk-grid">
     <div class="uk-first-column">
-       <a class="uk-button uk-button-primary tm-button-primary uk-button-large tm-button-large uk-visible@s" (click)="initScatter()">connect scatter</a> 
+       <a class="uk-button uk-button-primary tm-button-primary uk-button-large tm-button-large uk-visible@s" (click)="initScatter()" [ngStyle]="config.style.ukButtonPrimary">connect scatter</a> 
     </div>
   </div>
 </div>
@@ -22,7 +22,7 @@
     <br/> press create the <strong class="color-white">game</strong>. Its totaly <strong class="color-white">free</strong>
   </div>
   <div class="uk-inline container-input" id="recentPlayers" *ngIf="recentPlayers.length">
-       <small>Recent players: </small><div class='uk-label' *ngFor="let player of recentPlayers"  (click)='createGame(player)'>{{ player }}</div>
+       <small>Recent players: </small><div class='uk-label' [ngStyle]="config.style.ukLabel" *ngFor="let player of recentPlayers"  (click)='createGame(player)'>{{ player }}</div>
   </div>
    <div class="uk-margin">
       <div class="uk-inline container-input">
@@ -31,5 +31,5 @@
       </div>
       <!--<button class="uk-button uk-button-primary" (click)="createGame(challenger)" id="btn_create">Create</button>-->
     </div>
-   <button class="uk-button uk-button-primary" type="button" (click)="createGame(challenger)">Create</button>
+   <button class="uk-button uk-button-primary" [ngStyle]="config.style.ukButtonPrimary" type="button" (click)="createGame(challenger)">Create</button>
 </div>

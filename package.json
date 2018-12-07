@@ -1,11 +1,13 @@
 {
-  "name": "roshambo-angular",
-  "version": "0.0.0",
+  "name": "roshambo-EOS-frontend",
+  "version": "1.1.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json",
+    "start:jungle": "ng serve --proxy-config proxy.conf.json --configuration=jungle",
     "build": "ng build",
     "build_prod": "ng build --prod",
+    "build_prod:jungle": "ng build --configuration=jungle",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

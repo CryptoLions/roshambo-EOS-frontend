@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
   challenger;
   eos = this.MainService.returnEosNet();
   recentPlayers = (localStorage.getItem("players")) ? localStorage.getItem("players").split(",") : [];
+  config = environment;
   
 
   initScatter(){
