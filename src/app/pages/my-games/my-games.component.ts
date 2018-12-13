@@ -26,6 +26,7 @@ export class MyGamesComponent implements OnInit, OnDestroy {
   icons = [];
   confirm = false;
   config = environment;
+  whitePaper = environment.whitepaperUrl;
 
 
   moveFirst(game, host, challenger, num){
@@ -42,6 +43,10 @@ export class MyGamesComponent implements OnInit, OnDestroy {
 
   closeGame(){
   		this.MainService.closeGame(this.host)
+  }
+
+  logout(){
+      this.MainService.logout()
   }
 
   restart(){
@@ -69,6 +74,9 @@ export class MyGamesComponent implements OnInit, OnDestroy {
        this.host = params['id'];
        this.renderGame();
     });
+    if (localStorage.getItem('user') !== 'connected'){
+        window.location.href = '/';
+    }
   }
 
   ngOnDestroy() {

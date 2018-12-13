@@ -24,9 +24,23 @@ export class HomeComponent implements OnInit {
   	 		if (err){
   	 			return console.error(err);
   	 		}
-  	 		location.reload();
+        this.checkGamePlayed(localStorage.getItem('players'));
   	 });
   };
+
+  checkGamePlayed(challenger){
+      this.MainService.getGameChallenges((err, challenges) => {
+          if (err){
+              return console.error(err);
+          }
+          console.log(challenges);
+          if (challenges && Object.keys(challenges).length){
+              window.location.href = `/mygame/${challenger}`;
+              return;
+          }
+          this.createGame(challenger);
+      });
+  }
 
   createGame(challenger){
       this.MainService.createGame(challenger);
@@ -34,6 +48,14 @@ export class HomeComponent implements OnInit {
 
 
   ngOnInit(){
+     if (localStorage.getItem('user') === 'connected'){
+         let interval = setInterval(() => {
+            let name = this.MainService.getAccountName();
+            if (name && name.length){
+              this.checkGamePlayed(localStorage.getItem('players'));
+              clearTimeout(interval);
+            }
+         }, 500);
+     }
   }
-
 }

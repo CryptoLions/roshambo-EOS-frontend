@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 
 import { environment } from '../environments/environment';
 
+import { Router } from '@angular/router';
+
 import * as moment from 'moment'
 
 import { forkJoin } from "rxjs";
@@ -15,7 +17,7 @@ import { forkJoin } from "rxjs";
 })
 export class AppComponent implements OnInit {
 
-	constructor(private MainService: MainService, private http: HttpClient){
+	constructor(private MainService: MainService, private http: HttpClient, private router: Router){
     this.MainService.setPlayer(environment.botName);
   }
 	
@@ -84,7 +86,7 @@ export class AppComponent implements OnInit {
   }           
 
 	ngOnInit(){
-     this.createGamesTable();
+     //this.createGamesTable();
      this.enebleConfig();
      setInterval( () => { this.createNavDropdowns() }, 1000);
 	   if (this.connected){

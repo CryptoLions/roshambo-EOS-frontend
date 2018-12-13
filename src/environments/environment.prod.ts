@@ -18,19 +18,22 @@ export const environment = {
 	},
 	botName: 'roshambopunk',
 	version: '1.1.0',
+	whitepaperUrl: '/whitepaper.pdf',
 	style: {
 		body: { 
-			background: "url('./assets/images/section-background.svg') 50% 17vh no-repeat,linear-gradient(to left top,#09c5f9,#3483d9) no-repeat"
+			background: "url('./assets/images/section-background.svg') 50% 17vh no-repeat,linear-gradient(to bottom, #0ba360 0%, #3cba92 100%) 0 0 no-repeat"
 		},
 		ukLabel: {
-			background: "#3387db"
+			background: "#209362"
 		},
 		ukButtonPrimary: {
-			background: "#3387db",
-			'box-shadow': '',
-			border: ''
+			color: "#209362",
+			'box-shadow': '0 10px 40px #0ba360',
+			'border': 'none'
 		},
-		logoText: 'roshambo',
-		title: 'roshambo EOS game | by Cryptolions'
+		logoText: 'Jungle roshambo',
+		title: 'Jungle roshambo EOS game | by Cryptolions'
 	}
 };
+
+//old gradient linear-gradient(to left top, #218838bf, #218838)

@@ -1,9 +1,9 @@
-<p class="game-icons">
+<div *ngIf="!connected">
+  <p class="game-icons">
     <i class="fal fa-hand-rock uk-card uk-card-default uk-card-body uk-animation-slide-left-medium"></i>
     <i class="fal fa-hand-paper uk-card uk-card-default uk-card-body uk-animation-slide-bottom-medium"></i>
     <i class="fal fa-hand-scissors uk-card uk-card-default uk-card-body uk-animation-slide-right-medium"></i>
-</p> 
-<div *ngIf="!connected">
+  </p> 
   <p class="uk-margin-medium uk-text-lead">
                 Welcome to 
                 <strong class="color-white">roshambo</strong> game created by 
@@ -17,7 +17,7 @@
   </div>
 </div>
 
-<div *ngIf="connected">
+<!--<div *ngIf="connected">
   <div class="uk-margin-medium uk-text-lead">Please enter oponents <strong class="color-white">EOS</strong> account name and  
     <br/> press create the <strong class="color-white">game</strong>. Its totaly <strong class="color-white">free</strong>
   </div>
@@ -29,7 +29,6 @@
           <span class="uk-form-icon" uk-icon="icon: user"></span>
           <input class="uk-input" id="inp_create_game_challenger" type="text" placeholder="Enter EOS account you'd like cause for a fight" [(ngModel)]="challenger">
       </div>
-      <!--<button class="uk-button uk-button-primary" (click)="createGame(challenger)" id="btn_create">Create</button>-->
     </div>
    <button class="uk-button uk-button-primary" [ngStyle]="config.style.ukButtonPrimary" type="button" (click)="createGame(challenger)">Create</button>
-</div>
+</div>-->

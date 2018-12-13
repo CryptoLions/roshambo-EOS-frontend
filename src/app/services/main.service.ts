@@ -10,7 +10,7 @@ export class MainService {
   
   WINDOW: any = window;
   eos = this.WINDOW.Eos(environment.Eos);
-  accountName: any = '';
+  accountName = '';
   GAMES_C = {};
   GAMES_M = {};
   move = {};
@@ -26,6 +26,10 @@ export class MainService {
   	 return this.eos;
   }
 
+  getAccountName(){
+      return this.accountName;
+  }
+
   initScatter(callback){
     this.WINDOW.ScatterJS.scatter.connect('roshambo').then(connected => {
       if(!connected) {
@@ -35,7 +39,7 @@ export class MainService {
       this.ScatterJS = this.WINDOW.ScatterJS.scatter;
       this.WINDOW.scatter = null;
       
-      console.log("this.ScatterJS", this.ScatterJS);
+      //console.log("this.ScatterJS", this.ScatterJS);
 
 		  const requiredFields = { accounts: [environment.network] };
 
@@ -49,6 +53,7 @@ export class MainService {
 		  	
          let objectIdentity = this.WINDOW.ScatterJS.scatter.identity.accounts.find(x => x.blockchain === 'eos'); //identity.accounts[0].name;
          this.accountName = (objectIdentity && objectIdentity.name) ? objectIdentity.name : null;
+         console.log("this.accountName", this.accountName);
 		  	 callback(null, this.accountName);
 		  }).catch(error => this.showScatterError(error, callback));
     }).catch(error => {
@@ -105,7 +110,7 @@ export class MainService {
 
   logout(){
 	  localStorage.setItem('user', 'disconnect');
-    console.log(this.ScatterJS);
+    //console.log(this.ScatterJS);
 	  this.WINDOW.ScatterJS.scatter.forgetIdentity().then(() => {
           window.location.href = "/";
       }).catch(err => {
@@ -114,7 +119,6 @@ export class MainService {
   }
 
   createGame(challenger){
-  	console.log(challenger);
     
     if (challenger === this.accountName){
       this.WINDOW.UIkit.notification({
@@ -269,7 +273,8 @@ export class MainService {
   closeGame(challenger){
     this.eos.contract(environment.gcontract).then((contract) => {
       contract.close(this.accountName, challenger, { authorization: [this.accountName]}).then((res) => {
-        window.location.href = "/";
+        //window.location.href = "/";
+        this.logout();
       }).catch((error: any) => {
             this.showErr(error);
       });

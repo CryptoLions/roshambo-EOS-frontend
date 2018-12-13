@@ -1,5 +1,6 @@
 <div class="uk-offcanvas-content">
-      <div class="uk-container uk-container-expand">
+      
+      <!--<div class="uk-container uk-container-expand">
         <nav class="uk-navbar">
           <div class="uk-navbar-left logo-container">
             <a href="/"><i class="fal fa-hand-scissors"></i> <span id="logoText"> {{configStyle?.logoText}}</span></a>
@@ -57,14 +58,14 @@
             </ul>
           </div>
         </nav>
-      </div>
+      </div>-->
 
       <div uk-height-viewport="offset-top: true; offset-bottom: true" class="uk-section uk-section-small uk-flex uk-flex-middle uk-text-center" style="box-sizing: border-box; min-height: calc((100vh - 80px) - 103px);">
         <div class="uk-width-1-1">
           <div class="uk-container">
               <router-outlet></router-outlet>
 
-              <div class="uk-container uk-width-1-2 container-table-log" *ngIf="gamesPlayed?.history" id="gamesLog">
+              <!--<div class="uk-container uk-width-1-2 container-table-log" *ngIf="gamesPlayed?.history" id="gamesLog">
                 <table class="uk-table uk-table-small uk-table-striped">
                     <thead>
                         <tr>
@@ -93,12 +94,12 @@
                         </tr>
                     </tbody>
                 </table>
-              </div>
+              </div>-->
           </div>
         </div>
       </div>
 
-      <div class="uk-section-small bottom-footer">
+      <!--<div class="uk-section-small bottom-footer">
               <div class="uk-container uk-position-relative">
                 <ul uk-margin="" class="uk-subnav tm-subnav uk-margin-remove-bottom">
                   <li class="uk-first-column">
@@ -121,6 +122,6 @@
                   </li>
                 </ul>
               </div>
-      </div>
+      </div>-->
 </div>
 
