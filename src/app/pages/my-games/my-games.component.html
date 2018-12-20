@@ -71,7 +71,7 @@
 
 <button class="uk-button uk-button-primary" [ngStyle]="config.style.ukButtonPrimary" type="button" (click)="closeGame()" id="btn_cancel" *ngIf="!tableLoader">Close Game</button>
 <span *ngIf="!tableLoader && game?.winner !== 'none'" class="btn_restart">or</span>
-<button class="uk-button uk-button-primary btn_restart" [ngStyle]="config.style.ukButtonPrimary" type="button" (click)="restart()" id="btn_cancel" *ngIf="!tableLoader && game?.winner !== 'none'">Resrtart</button>
+<button class="uk-button uk-button-primary btn_restart" [ngStyle]="config.style.ukButtonPrimary" type="button" (click)="restart()" id="btn_cancel" *ngIf="!tableLoader && game?.winner !== 'none'">Restart</button>
 
 
 
