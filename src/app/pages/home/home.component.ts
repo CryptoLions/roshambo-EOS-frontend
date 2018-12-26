@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MainService } from '../../services/main.service';
 
+import { Router } from '@angular/router';
+
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -10,7 +12,7 @@ import { environment } from '../../../environments/environment';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private MainService: MainService){}
+  constructor(private MainService: MainService, private router: Router){}
   WINDOW :any = window;
   connected = (localStorage.getItem("user") === "connected") ? true : false;
   challenger;
@@ -35,7 +37,7 @@ export class HomeComponent implements OnInit {
           }
           console.log(challenges);
           if (challenges && Object.keys(challenges).length){
-              window.location.href = `/mygame/${challenger}`;
+              this.router.navigate([`/mygame/${challenger}`]);
               return;
           }
           this.createGame(challenger);
@@ -55,7 +57,7 @@ export class HomeComponent implements OnInit {
               this.checkGamePlayed(localStorage.getItem('players'));
               clearTimeout(interval);
             }
-         }, 500);
+         }, 100);
      }
   }
 }

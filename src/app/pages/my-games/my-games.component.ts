@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MainService } from '../../services/main.service';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { environment } from '../../../environments/environment';
- 
+
 @Component({
   selector: 'app-my-games',
   templateUrl: './my-games.component.html',
@@ -11,7 +12,7 @@ import { environment } from '../../../environments/environment';
 })
 export class MyGamesComponent implements OnInit, OnDestroy {
 
-  constructor(private MainService: MainService, private route: ActivatedRoute) {
+  constructor(private MainService: MainService, private route: ActivatedRoute, private router: Router) {
 	  this.icons[1] = '<img width="50px" src="assets/images/rock_l.png" alt="Rock" title="Rock" />';
 	  this.icons[2] = '<img width="50px" src="assets/images/paper_l.png" alt="Paper" title="Paper" />';
 	  this.icons[3] = '<img width="50px" src="assets/images/scissor_l.png" alt="Scissors" title="Scissors" />';
@@ -75,7 +76,8 @@ export class MyGamesComponent implements OnInit, OnDestroy {
        this.renderGame();
     });
     if (localStorage.getItem('user') !== 'connected'){
-        window.location.href = '/';
+        //window.location.href = '/';
+        this.router.navigate([`/`]);
     }
   }
 

@@ -21,14 +21,14 @@ export const environment = {
 	whitepaperUrl: '/whitepaper.pdf',
 	style: {
 		body: { 
-			background: "url('./assets/images/section-background.svg') 50% 17vh no-repeat,linear-gradient(to bottom, #0ba360 0%, #3cba92 100%) 0 0 no-repeat"
+			background: "transparent" // "url('./assets/images/section-background.svg') 50% 17vh no-repeat,linear-gradient(to bottom, #0ba360 0%, #3cba92 100%) 0 0 no-repeat"
 		},
 		ukLabel: {
 			background: "#209362"
 		},
 		ukButtonPrimary: {
 			color: "#209362",
-			'box-shadow': '0 10px 40px #0ba360',
+			'box-shadow': '0px 1px 10px #0ba360',
 			'border': 'none'
 		},
 		logoText: 'Jungle roshambo',

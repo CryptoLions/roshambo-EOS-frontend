@@ -31,7 +31,7 @@ export const environment = {
 		},
 		ukButtonPrimary: {
 			color: "#209362",
-			'box-shadow': '0 10px 40px #0ba360',
+			'box-shadow': '0px 1px 10px #0ba360',
 			'border': 'none'
 		},
 		logoText: 'Jungle roshambo',

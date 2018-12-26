@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 //import {ScatterJS} from 'scatterjs-core';
 //import {ScatterEOS} from 'scatterjs-plugin-eosjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,10 @@ export class MainService {
   nonce = {};
   navigator: any = navigator;
   ScatterJS;
+  roshamboScatter;
+  parentWindow:any = parent.window;
 
-  constructor(){
+  constructor(private router: Router){
      this.WINDOW.ScatterJS.plugins(new this.WINDOW.ScatterEOS());
   }
 
@@ -31,13 +34,16 @@ export class MainService {
   }
 
   initScatter(callback){
-    this.WINDOW.ScatterJS.scatter.connect('roshambo').then(connected => {
+    this.roshamboScatter = (this.parentWindow.ScatterJSroshambo && this.parentWindow.ScatterJSroshambo.scatter) ? this.parentWindow.ScatterJSroshambo.scatter : false;
+    this.ScatterJS =  this.roshamboScatter || this.WINDOW.ScatterJS.scatter;
+
+    this.ScatterJS.connect('roshambo').then(connected => {
       if(!connected) {
           return this.showScatterError('Can\'t connect to Scatter', callback);
       } 
-      
-      this.ScatterJS = this.WINDOW.ScatterJS.scatter;
+
       this.WINDOW.scatter = null;
+      this.roshamboScatter = null;
       
       //console.log("this.ScatterJS", this.ScatterJS);
 
@@ -51,7 +57,7 @@ export class MainService {
 		  	}
 		  	localStorage.setItem('user', 'connected');
 		  	
-         let objectIdentity = this.WINDOW.ScatterJS.scatter.identity.accounts.find(x => x.blockchain === 'eos'); //identity.accounts[0].name;
+         let objectIdentity =this.ScatterJS.identity.accounts.find(x => x.blockchain === 'eos'); //identity.accounts[0].name;
          this.accountName = (objectIdentity && objectIdentity.name) ? objectIdentity.name : null;
          console.log("this.accountName", this.accountName);
 		  	 callback(null, this.accountName);
@@ -111,8 +117,8 @@ export class MainService {
   logout(){
 	  localStorage.setItem('user', 'disconnect');
     //console.log(this.ScatterJS);
-	  this.WINDOW.ScatterJS.scatter.forgetIdentity().then(() => {
-          window.location.href = "/";
+	  this.ScatterJS.forgetIdentity().then(() => {
+          this.router.navigate([`/`]);
       }).catch(err => {
           console.error(err);
       });
@@ -144,7 +150,7 @@ export class MainService {
 
    this.eos.contract(environment.gcontract).then((contract) => {
     contract.create(this.accountName, challenger, { authorization: [this.accountName]}).then((res) => {
-         window.location.href = "/mygame/" + this.accountName;
+         this.router.navigate(["/mygame/" + this.accountName]);
     }).catch(error => {
           this.showErr(error);
       });
@@ -156,7 +162,7 @@ export class MainService {
   restart(){
      this.eos.contract(environment.gcontract).then((contract) => {
       contract.restart(this.accountName, { authorization: [this.accountName]}).then((res) => {
-            location.reload();
+            this.router.navigate(['/']);
       }).catch(error => {
             this.showErr(error);
       });
@@ -273,7 +279,6 @@ export class MainService {
   closeGame(challenger){
     this.eos.contract(environment.gcontract).then((contract) => {
       contract.close(this.accountName, challenger, { authorization: [this.accountName]}).then((res) => {
-        //window.location.href = "/";
         this.logout();
       }).catch((error: any) => {
             this.showErr(error);
