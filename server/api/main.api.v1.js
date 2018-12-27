@@ -42,7 +42,7 @@ module.exports 	= function(router, config, request, log, mongoMain) {
 
 	router.get('/api/v1/last/game/:accountName', cors(), (req, res) => {
 			let accountName = req.params.accountName;
-			HISTORY.find({ winner: accountName }, (err, result) => {
+			HISTORY.find({ 'act.data.winner': accountName }, (err, result) => {
 					if (err){
 						log.error(err);
 	   					return res.status(500).end();
