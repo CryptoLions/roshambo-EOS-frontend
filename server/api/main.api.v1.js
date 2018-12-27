@@ -4,6 +4,7 @@
 
 const async = require('async');
 const path 	= require('path');
+const cors  = require('cors');
 
 module.exports 	= function(router, config, request, log, mongoMain) {
 
@@ -37,6 +38,20 @@ module.exports 	= function(router, config, request, log, mongoMain) {
 	   			res.json(result);
 			})
 	   		
+	});
+
+	router.get('/api/v1/last/game/:accountName', cors(), (req, res) => {
+			let accountName = req.params.accountName;
+			HISTORY.find({ 'act.data.host': accountName }, (err, result) => {
+					if (err){
+						log.error(err);
+	   					return res.status(500).end();
+					}
+					if (result.length){
+						return res.json({ whitepaper: true });
+					}
+					res.json({ whitepaper: false });
+			});
 	});
 
 // ============== end of exports 
