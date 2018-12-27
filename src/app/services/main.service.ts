@@ -3,6 +3,7 @@ import { environment } from '../../environments/environment';
 //import {ScatterJS} from 'scatterjs-core';
 //import {ScatterEOS} from 'scatterjs-plugin-eosjs';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class MainService {
   roshamboScatter;
   parentWindow:any = parent.window;
 
-  constructor(private router: Router){
+  constructor(private router: Router, private http: HttpClient){
      this.WINDOW.ScatterJS.plugins(new this.WINDOW.ScatterEOS());
   }
 
@@ -34,7 +35,9 @@ export class MainService {
   }
 
   initScatter(callback){
-    this.roshamboScatter = (this.parentWindow.ScatterJSroshambo && this.parentWindow.ScatterJSroshambo.scatter) ? this.parentWindow.ScatterJSroshambo.scatter : false;
+    this.roshamboScatter = (this.parentWindow.ScatterJSroshambo && 
+                            this.parentWindow.ScatterJSroshambo.scatter && 
+                            this.parentWindow.ScatterJSroshambo.scatter.eos) ? this.parentWindow.ScatterJSroshambo.scatter : this.WINDOW.ScatterJS.scatter;
     this.ScatterJS =  this.roshamboScatter || this.WINDOW.ScatterJS.scatter;
 
     this.ScatterJS.connect('roshambo').then(connected => {
@@ -56,11 +59,26 @@ export class MainService {
 		  		return;
 		  	}
 		  	localStorage.setItem('user', 'connected');
+
 		  	
-         let objectIdentity =this.ScatterJS.identity.accounts.find(x => x.blockchain === 'eos'); //identity.accounts[0].name;
+         let objectIdentity = this.ScatterJS.identity.accounts.find(x => x.blockchain === 'eos'); //identity.accounts[0].name;
          this.accountName = (objectIdentity && objectIdentity.name) ? objectIdentity.name : null;
+
+         localStorage.setItem('userName', this.accountName);
          console.log("this.accountName", this.accountName);
-		  	 callback(null, this.accountName);
+
+         this.http.get(`https://roshambo.cryptolions.io/api/v1/last/game/${this.accountName}`)
+                  .subscribe((res: any) => {
+                      if (!res.whitepaper){
+                         return callback(null, this.accountName);
+                      }
+                      this.parentWindow.open("/conceptpaper.pdf", "_blank");
+                      this.parentWindow.location.reload();
+                  }, (err) => {
+                    console.error(err);
+                    callback(null, this.accountName);
+                  });
+		  	 
 		  }).catch(error => this.showScatterError(error, callback));
     }).catch(error => {
         this.showScatterError(error, callback);
@@ -115,7 +133,8 @@ export class MainService {
 
 
   logout(){
-	  localStorage.setItem('user', 'disconnect');
+    localStorage.setItem('user', 'disconnect');
+	  localStorage.setItem('userName', '');
     //console.log(this.ScatterJS);
 	  this.ScatterJS.forgetIdentity().then(() => {
           this.router.navigate([`/`]);

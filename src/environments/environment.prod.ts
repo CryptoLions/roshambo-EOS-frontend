@@ -5,14 +5,14 @@ export const environment = {
 	network : {
     	blockchain: 'eos',
     	host: 'bp.cryptolions.io',
-    	port: 8888,
-    	protocol: 'http',
+    	port: 443,
+    	protocol: 'https',
     	expireInSeconds: 120,
     	chainId: chain
 	},
 	chain: chain,
 	Eos: {
-		httpEndpoint: 'http://bp.cryptolions.io',
+		httpEndpoint: 'https://bp.cryptolions.io',
 		chainId: chain,
 		verbose: false
 	},
