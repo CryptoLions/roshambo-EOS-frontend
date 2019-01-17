@@ -18,7 +18,7 @@ export const environment = {
 	},
 	botName: 'roshambopunk',
 	version: '1.1.0',
-	whitepaperUrl: '/whitepaper.pdf',
+	whitepaperUrl: '/conceptpaper.pdf',
 	style: {
 		body: { 
 			background: "transparent" // "url('./assets/images/section-background.svg') 50% 17vh no-repeat,linear-gradient(to bottom, #0ba360 0%, #3cba92 100%) 0 0 no-repeat"

@@ -66,19 +66,7 @@ export class MainService {
 
          localStorage.setItem('userName', this.accountName);
          console.log("this.accountName", this.accountName);
-
-         this.http.get(`https://roshambo.cryptolions.io/api/v1/last/game/${this.accountName}`)
-                  .subscribe((res: any) => {
-                      if (!res.whitepaper){
-                         return callback(null, this.accountName);
-                      }
-                      this.parentWindow.open("/conceptpaper.pdf", "_blank");
-                      this.parentWindow.location.reload();
-                  }, (err) => {
-                    console.error(err);
-                    callback(null, this.accountName);
-                  });
-		  	 
+         callback(null, this.accountName);
 		  }).catch(error => this.showScatterError(error, callback));
     }).catch(error => {
         this.showScatterError(error, callback);

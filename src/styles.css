@@ -90,6 +90,9 @@ body, html {
 .btn_restart{
 	margin-left: 20px;
 }
+.btn_restart-close{
+	margin-right: 20px;
+}
 
 .game-icons{
 	font-size: 100px;

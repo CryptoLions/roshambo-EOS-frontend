@@ -70,7 +70,8 @@
 </div>
 
 <button class="uk-button uk-button-primary" [ngStyle]="config.style.ukButtonPrimary" type="button" id="btn_cancel" (click)="closeGame()" *ngIf="!tableLoader && game?.winner === 'none'">close game</button>
-<a class="uk-button uk-button-primary" [ngStyle]="config.style.ukButtonPrimary" type="button" id="btn_cancel" *ngIf="!tableLoader && game?.winner === host" href="{{whitePaper}}" target="_blank">WHITE PAPER</a>
+<span *ngIf="!tableLoader && showWhitePaper && game?.winner === 'none' || !tableLoader && game?.winner === host && game?.winner === 'none'" class="btn_restart btn_restart-close">or</span>
+<a class="uk-button uk-button-primary" [ngStyle]="config.style.ukButtonPrimary" type="button" id="btn_cancel" *ngIf="!tableLoader && showWhitePaper || !tableLoader && game?.winner === host" href="{{whitePaper}}" target="_blank">CONCEPT PAPER</a>
 <span *ngIf="!tableLoader && game?.winner === host" class="btn_restart">or</span>
 <button class="uk-button uk-button-primary btn_restart" [ngStyle]="config.style.ukButtonPrimary" type="button" (click)="restart()" id="btn_cancel" *ngIf="!tableLoader && game?.winner !== 'none'">Resrtart</button>
 

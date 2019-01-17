@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MainService } from '../../services/main.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 import { environment } from '../../../environments/environment';
 
@@ -12,7 +13,7 @@ import { environment } from '../../../environments/environment';
 })
 export class MyGamesComponent implements OnInit, OnDestroy {
 
-  constructor(private MainService: MainService, private route: ActivatedRoute, private router: Router) {
+  constructor(private MainService: MainService, private route: ActivatedRoute, private router: Router, private http: HttpClient) {
 	  this.icons[1] = '<img width="50px" src="assets/images/rock_l.png" alt="Rock" title="Rock" />';
 	  this.icons[2] = '<img width="50px" src="assets/images/paper_l.png" alt="Paper" title="Paper" />';
 	  this.icons[3] = '<img width="50px" src="assets/images/scissor_l.png" alt="Scissors" title="Scissors" />';
@@ -28,6 +29,8 @@ export class MyGamesComponent implements OnInit, OnDestroy {
   confirm = false;
   config = environment;
   whitePaper = environment.whitepaperUrl;
+  parentWindow:any = parent.window;
+  showWhitePaper = false;
 
 
   moveFirst(game, host, challenger, num){
@@ -54,6 +57,18 @@ export class MyGamesComponent implements OnInit, OnDestroy {
       this.MainService.restart()
   }
 
+  checkGamesPlayed(){
+      this.http.get(`https://roshambo.cryptolions.io/api/v1/last/game/${this.host}`)
+         .subscribe((res: any) => {
+             if (res.whitepaper){
+                this.showWhitePaper = true;
+             }
+         }, (err) => {
+           console.error(err);
+         });
+  }
+
+
   renderGame(){
   	   this.game = this.MainService.GAMES_M[this.host];
   	   this.host = this.MainService.accountName;
@@ -74,6 +89,7 @@ export class MyGamesComponent implements OnInit, OnDestroy {
   	this.user = this.route.params.subscribe(params => {
        this.host = params['id'];
        this.renderGame();
+       this.checkGamesPlayed();
     });
     if (localStorage.getItem('user') !== 'connected'){
         //window.location.href = '/';
