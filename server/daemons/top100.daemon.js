@@ -107,7 +107,7 @@ function createTableWinners(result){
 function sortTableWinners(table){
 		var result = [];
 		Object.keys(table).forEach(function(key, index){
-			if(key === "self"){
+			if(key === "self" || key === "none" || key === "null"){
 				return;
 			}
 			result.push({ player: key, games_played: table[key].games_played, games_win: table[key].winns });

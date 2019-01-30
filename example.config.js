@@ -1,5 +1,5 @@
 /*
-  App configuration test local created by eoswebnetbp1 (31.08.18)
+  App configuration test local created by Cryptolions
 */
 
 const path = require('path');
@@ -9,6 +9,7 @@ let config = {};
 config.PROD = false;
 
 config.saveRequestsMetrics = true;
+config.contractName = 'roshambogame';
 
 // mongo uri and options
 config.MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/ROSHAMBO_DEV';
@@ -19,36 +20,11 @@ config.MONGO_OPTIONS = {
     useNewUrlParser: true
 };
 
-// eosjs
-config.eosConfig = {
-  chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
-  httpEndpoint: 'http://bp.cryptolions.io',
-  expireInSeconds: 60,
-  broadcast: true,
-  debug: false,
-  sign: true,
-  logger: {
-    //log: console.log,
-    error: console.error
-  }
-};
-
-// scatter wallet
-config.walletAPI = {
-        host: 'nodes.get-scatter.com',
-        port: '',
-        protocol: 'https'
-};
-
-// api url for producers list
-config.customChain = 'https://nodes.get-scatter.com';
-
 // api url for history
 config.daemonsON = true;
 config.historyChain = 'https://history.cryptolions.io';
 
 config.updateHistoryTime = 60; // every 5 sec
-
 config.apiV = 'v1'; // api version
 
 // log4js
@@ -60,10 +36,6 @@ config.logger = {
       server: {
         type: 'file',
         filename: path.join(__dirname, './server/logs/server.log'),
-      },
-      socket_io: {
-        type: 'file',
-        filename: path.join(__dirname, './server/logs/socket_io.log'),
       },
       history_daemon: {
         type: 'file',
@@ -81,10 +53,6 @@ config.logger = {
         },
         server:  {
           appenders: ['out', 'server'],
-          level:     'trace'
-        },
-        socket_io:  {
-          appenders: ['out', 'socket_io'],
           level:     'trace'
         },
         history_daemon:  {

@@ -7,7 +7,7 @@
 			<span id="gh_{{host}}_hstatus" class="text-center">
 				<span class='msg_bgl msg_bgl_y' *ngIf="game?.ph_move_hash === nullHash && game?.pc_move_hash === nullHash">I'll move now...</span>
 				<span class='msg_bgl msg_bgl_y' *ngIf="game?.pc_move_hash !== nullHash && game?.ph_move_hash === nullHash">I'll move now...</span>
-				<span class='msg_bgr msg_bgr_y' *ngIf="game?.pc_move_hash === nullHash && game?.ph_move_hash !== nullHash">waiting for oponent move...</span>
+				<span class='msg_bgl msg_bgr_y' *ngIf="game?.pc_move_hash === nullHash && game?.ph_move_hash !== nullHash">waiting for oponent move...</span>
 				<span class='msg_bgl msg_bgl_y' *ngIf="game?.ph_move_hash !== nullHash && game?.pc_move_hash !== nullHash && game?.ph_move === 0">I'll confirm my move asap...</span>
 			</span>
 			<span class='msg_bgl msg_bgl_y' [ngClass]="{ 'msg_bgl_g': game?.winner === host, 'msg_bgl_r': game?.winner !== host && game?.winner !== 'none' && game?.winner !== 'self'}" *ngIf="game?.ph_move_hash !== nullHash && game?.pc_move_hash !== nullHash && game?.ph_move !== 0">Move confirmed: <span [innerHtml]="icons[game?.ph_move]"></span></span>
@@ -44,18 +44,18 @@
 		<div id="pr_status">
 			<span id="gh_{{host}}_cstatus" class="text-center">
 				<span class='msg_bgr msg_bgr_y' *ngIf="game?.pc_move_hash !== nullHash && game?.ph_move_hash === nullHash">waiting on oponent move to confirm own move...</span>
-				<span class='msg_bgr msg_bgr_y' *ngIf="game?.ph_move_hash !== nullHash && game?.pc_move_hash !== nullHash && game?.pc_move === 0">Please <a class='move-two' (click)="moveSecond(game?.host, game?.challenger , 2)">confirm</a> your move...</span>
+				<span class='msg_bgr msg_bgr_y' *ngIf="game?.ph_move_hash !== nullHash && game?.pc_move_hash !== nullHash && game?.pc_move === 0">Please <a class='move-two' (click)="moveSecond(game?.id, game?.challenger, 2)">confirm</a> your move...</span>
 
 				<span class='msg_bgr msg_bgr_y' *ngIf="game?.pc_move_hash !== nullHash && game?.ph_move_hash !== nullHash && game?.pc_move !== 0" [ngClass]="{ 'msg_bgr_g': game?.winner === game?.challenger, 'msg_bgr_r': game?.winner !== game?.challenger && game?.winner !== 'none' && game?.winner !== 'self'}">Move confirmed: <span [innerHtml]="icons[game?.pc_move]"></span></span>
 			</span>
 			<div *ngIf="game?.pc_move_hash === nullHash">
-			 	<button class="uk-button uk-button-primary marg_btm_5" [ngStyle]="config.style.ukButtonPrimary" type="button" id="btn_move1" (click)="moveFirst(1, game?.host,  game?.challenger, 2)" >
+			 	<button class="uk-button uk-button-primary marg_btm_5" [ngStyle]="config.style.ukButtonPrimary" type="button" id="btn_move1" (click)="moveFirst(game?.id, 1, game?.challenger, 2)" >
 					<span [innerHtml]="icons[1]"></span>
 				</button>
-				<button class="uk-button uk-button-primary marg_btm_5" [ngStyle]="config.style.ukButtonPrimary" type="button" id="btn_move1" (click)="moveFirst(2, game?.host , game?.challenger, 2)" >
+				<button class="uk-button uk-button-primary marg_btm_5" [ngStyle]="config.style.ukButtonPrimary" type="button" id="btn_move1" (click)="moveFirst(game?.id, 2, game?.challenger, 2)" >
 					<span [innerHtml]="icons[2]"></span>
 				</button>
-				<button class="uk-button uk-button-primary marg_btm_5" [ngStyle]="config.style.ukButtonPrimary" type="button" id="btn_move1" (click)="moveFirst(3, game?.host, game?.challenger, 2)" >
+				<button class="uk-button uk-button-primary marg_btm_5" [ngStyle]="config.style.ukButtonPrimary" type="button" id="btn_move1" (click)="moveFirst(game?.id, 3, game?.challenger, 2)" >
 					<span [innerHtml]="icons[3]"></span>
 				</button>
 			</div>
