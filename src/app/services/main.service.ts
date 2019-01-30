@@ -11,8 +11,8 @@ export class MainService {
   WINDOW: any = window;
   eos = this.WINDOW.Eos(environment.Eos);
   accountName: any = '';
-  GAMES_C = {};
-  GAMES_M = {};
+  GAMES_C = [];
+  GAMES_M = [];
   move = {};
   nonce = {};
   navigator: any = navigator;
@@ -34,8 +34,6 @@ export class MainService {
       
       this.ScatterJS = this.WINDOW.ScatterJS.scatter;
       this.WINDOW.scatter = null;
-      
-      console.log("this.ScatterJS", this.ScatterJS);
 
 		  const requiredFields = { accounts: [environment.network] };
 
@@ -140,6 +138,7 @@ export class MainService {
 
    this.eos.contract(environment.gcontract).then((contract) => {
     contract.create(this.accountName, challenger, { authorization: [this.accountName]}).then((res) => {
+         console.log(res);
          window.location.href = "/mygame/" + this.accountName;
     }).catch(error => {
           this.showErr(error);
@@ -173,13 +172,15 @@ export class MainService {
                              limit: 100, 
                              table_key: "host", 
                              lower_bound: this.accountName, 
-                             upper_bound: this.accountName + "a", 
-                             index_position: 1 })
+                             upper_bound: this.accountName + "a",
+                             key_type: "i64", 
+                             index_position: 2 })
        .then( (res: any) => {
-         let rows = res.rows;
+         /*let rows = res.rows;
          let GAMES_M_ = {};
          for (let j = 0; j < rows.length; j++) {
-            GAMES_M_[rows[j].host] = { host: rows[j].host, 
+            GAMES_M_[rows[j].challenger] = { id: rows[j].id, 
+                                       host: rows[j].host,
                                        challenger: rows[j].challenger, 
                                        accepted: rows[j].accepted, 
                                        ph_move_hash: rows[j].ph_move_hash, 
@@ -191,7 +192,8 @@ export class MainService {
                                        winner: rows[j].winner 
                                      };
          }
-         this.checkUpdateGames(GAMES_M_, this.GAMES_M);
+         this.checkUpdateGames(GAMES_M_, this.GAMES_M);*/
+         this.GAMES_M = res.rows;
          callback(null, this.GAMES_M);
        }).catch(err => {
           callback(err);
@@ -211,12 +213,13 @@ export class MainService {
                              lower_bound: this.accountName, 
                              upper_bound: this.accountName + "a", 
                              key_type: "i64", 
-                             index_position: 2 })
+                             index_position: 3 })
         .then( (res: any) => {
-         let rows2 = res.rows;
+         /*let rows2 = res.rows;
          let GAMES_C_ = {};
          for (let j = 0; j < rows2.length; j++) {
-            GAMES_C_[rows2[j].host] = { host: rows2[j].host, 
+            GAMES_C_[rows2[j].host] = { id: rows2[j].id, 
+                                        host: rows2[j].host,
                                         challenger: rows2[j].challenger, 
                                         accepted: rows2[j].accepted, 
                                         ph_move_hash: rows2[j].ph_move_hash, 
@@ -228,14 +231,15 @@ export class MainService {
                                         winner: rows2[j].winner
                                       };
          }
-         this.checkUpdateGames(GAMES_C_, this.GAMES_C);
+         this.checkUpdateGames(GAMES_C_, this.GAMES_C);*/
+         this.GAMES_C = res.rows;
          callback(null, this.GAMES_C);
        }).catch(err=> {
          callback(err);
        });
   }
 
-  checkUpdateGames(GAMES_, G){
+  /*checkUpdateGames(GAMES_, G){
     if (Object.keys(GAMES_).length  == 0 && Object.keys(G).length == 0){
       return;
     }
@@ -263,7 +267,7 @@ export class MainService {
       }
     }
     return G;
-  }
+  }*/
 
 
   closeGame(challenger){

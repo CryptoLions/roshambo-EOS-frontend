@@ -75,7 +75,7 @@ let elemsCounter = 0;
 function getActions(stat, cb){
 	let limit = 1000;
 	let skip = stat.cursor_history;
-	let url = `${config.historyChain}/v1/history/get_actions/roshambogame/winns?sort=1&skip=${skip}&limit=${limit}`;
+	let url = `${config.historyChain}/v1/history/get_actions/${config.contractName}/winns?sort=1&skip=${skip}&limit=${limit}`;
 	request.get(url, (error, response, body) => {
 			if (error){
 				return cb(error);

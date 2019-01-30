@@ -26,7 +26,7 @@ export class CallsComponent implements OnInit, OnDestroy {
   icons = [];
   confirm = false;
   config = environment;
-
+  _id;
 
   moveFirst(game, host, challenger, num){
   	this.MainService.move01(game, host, challenger, num);
@@ -57,7 +57,8 @@ export class CallsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
   	this.user = this.route.params.subscribe(params => {
-       this.host = params['user'];
+       this.host = params['host'];
+       this._id = params['id'];
        this.renderGame();
     });
   }

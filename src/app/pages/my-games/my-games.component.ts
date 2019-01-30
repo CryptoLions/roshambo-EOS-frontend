@@ -18,6 +18,7 @@ export class MyGamesComponent implements OnInit, OnDestroy {
   }
   
   user;
+  challenger;
   host;
   game;
   timer;
@@ -26,6 +27,7 @@ export class MyGamesComponent implements OnInit, OnDestroy {
   icons = [];
   confirm = false;
   config = environment;
+  id;
 
 
   moveFirst(game, host, challenger, num){
@@ -41,7 +43,7 @@ export class MyGamesComponent implements OnInit, OnDestroy {
   }
 
   closeGame(){
-  		this.MainService.closeGame(this.host)
+  		this.MainService.closeGame(this.challenger)
   }
 
   restart(){
@@ -49,8 +51,8 @@ export class MyGamesComponent implements OnInit, OnDestroy {
   }
 
   renderGame(){
-  	   this.game = this.MainService.GAMES_M[this.host];
-  	   this.host = this.MainService.accountName;
+  	   this.game = this.findById();
+  	   this.host  = this.MainService.accountName;
   	   this.tableLoader = (!this.game) ? true : false;
   	   console.log(this.game);
        if (this.game && this.game.ph_move_hash !== this.nullHash && 
@@ -64,9 +66,21 @@ export class MyGamesComponent implements OnInit, OnDestroy {
   	   this.timer = setTimeout( () => { this.renderGame() }, 1000);
   }
 
+  findById(){
+      let result;
+      this.MainService.GAMES_M.forEach(elem => {
+            if (elem.id === this.id){
+                result = elem;
+            }
+      });
+      return result;
+  }
+
   ngOnInit() {
   	this.user = this.route.params.subscribe(params => {
-       this.host = params['id'];
+       this.challenger = params['challenger'];
+       this.id = Number(params['id']);
+       console.log(this.challenger, this.id);
        this.renderGame();
     });
   }

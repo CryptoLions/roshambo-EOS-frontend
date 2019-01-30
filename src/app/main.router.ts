@@ -11,11 +11,11 @@ export const routes: Routes = [
   	pathMatch: 'full' 
   },
   { 
-    path: 'mygame/:id', 
+    path: 'mygame/:challenger/:id', 
     component: MyGamesComponent, 
   },
   { 
-    path: 'call/:user', 
+    path: 'call/:host/:id', 
     component: CallsComponent, 
   },
   { 
