@@ -17,5 +17,20 @@ export const environment = {
 		verbose: false
 	},
 	botName: 'roshamboebot',
-	version: '1.1.0'
+	version: '1.1.0',
+	style: {
+		body: { 
+			background: "url('./imgs/section-background.svg') 50% 17vh no-repeat,linear-gradient(to left top, #218838bf, #218838) 0 0 no-repeat"
+		},
+		ukLabel: {
+			background: "#209362"
+		},
+		ukButtonPrimary: {
+			color: "#209362",
+			'box-shadow': 'none',
+			'border': '1px solid #209362'
+		},
+		logoText: 'Jungle roshambo',
+		title: 'Jungle roshambo EOS game | by Cryptolions'
+	}
 };

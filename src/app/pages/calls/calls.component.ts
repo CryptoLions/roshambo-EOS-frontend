@@ -25,6 +25,7 @@ export class CallsComponent implements OnInit, OnDestroy {
   tableLoader = false;
   icons = [];
   confirm = false;
+  config = environment;
 
 
   moveFirst(game, host, challenger, num){
