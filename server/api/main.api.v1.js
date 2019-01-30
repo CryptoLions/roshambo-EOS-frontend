@@ -28,7 +28,7 @@ module.exports 	= function(router, config, request, log, mongoMain) {
 					HISTORY.count(cb);
 				},
 				history: (cb) => {
-					HISTORY.find({}).sort({ _id: -1 }).limit(lastGames).exec(cb);
+					HISTORY.find({ 'act.data.winner': { $ne : 'none' }}).sort({ _id: -1 }).limit(lastGames).exec(cb);
 				}
 			}, (err, result) => {
 				if (err){
