@@ -12,13 +12,13 @@
 			<span class='msg_bgl msg_bgl_y' [ngClass]="{ 'msg_bgl_g': game?.winner === host, 'msg_bgl_r': game?.winner !== host && game?.winner !== 'none' && game?.winner !== 'self'}" *ngIf="game?.ph_move_hash !== nullHash && game?.pc_move_hash !== nullHash && game?.ph_move !== 0">Move confirmed: <span [innerHtml]="icons[game?.ph_move]"></span></span>
 
 			<div *ngIf="game?.ph_move_hash === nullHash">
-			 	<button class="uk-button uk-button-primary marg_btm_5" type="button" id="btn_move1" (click)="moveFirst(1, game?.host,  game?.challenger, 1)" >
+			 	<button class="uk-button uk-button-primary marg_btm_5" [ngStyle]="config.style.ukButtonPrimary" type="button" id="btn_move1" (click)="moveFirst(1, game?.host,  game?.challenger, 1)" >
 					<span [innerHtml]="icons[1]"></span>
 				</button>
-				<button class="uk-button uk-button-primary marg_btm_5" type="button" id="btn_move1" (click)="moveFirst(2, game?.host , game?.challenger, 1)" >
+				<button class="uk-button uk-button-primary marg_btm_5" [ngStyle]="config.style.ukButtonPrimary" type="button" id="btn_move1" (click)="moveFirst(2, game?.host , game?.challenger, 1)" >
 					<span [innerHtml]="icons[2]"></span>
 				</button>
-				<button class="uk-button uk-button-primary marg_btm_5" type="button" id="btn_move1" (click)="moveFirst(3, game?.host, game?.challenger, 1)" >
+				<button class="uk-button uk-button-primary marg_btm_5" [ngStyle]="config.style.ukButtonPrimary" type="button" id="btn_move1" (click)="moveFirst(3, game?.host, game?.challenger, 1)" >
 					<span [innerHtml]="icons[3]"></span>
 				</button>
 			</div>
@@ -69,9 +69,9 @@
 	</div>
 </div>
 
-<button class="uk-button uk-button-primary" type="button" (click)="closeGame()" id="btn_cancel" *ngIf="!tableLoader">Close Game</button>
+<button class="uk-button uk-button-primary" [ngStyle]="config.style.ukButtonPrimary" type="button" (click)="closeGame()" id="btn_cancel" *ngIf="!tableLoader">Close Game</button>
 <span *ngIf="!tableLoader && game?.winner !== 'none'" class="btn_restart">or</span>
-<button class="uk-button uk-button-primary btn_restart" type="button" (click)="restart()" id="btn_cancel" *ngIf="!tableLoader && game?.winner !== 'none'">Resrtart</button>
+<button class="uk-button uk-button-primary btn_restart" [ngStyle]="config.style.ukButtonPrimary" type="button" (click)="restart()" id="btn_cancel" *ngIf="!tableLoader && game?.winner !== 'none'">Restart</button>
 
 
 

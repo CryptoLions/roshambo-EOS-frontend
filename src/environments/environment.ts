@@ -8,8 +8,8 @@ export const environment = {
 	network : {
     	blockchain: 'eos',
     	host: 'bp.cryptolions.io',
-    	port: 8888,
-    	protocol: 'http',
+    	port: 443,
+    	protocol: 'https',
     	expireInSeconds: 120,
     	chainId: chain
 	},
@@ -20,7 +20,22 @@ export const environment = {
 		verbose: false
 	},
 	botName: 'roshambopunk',
-	version: '1.1.0'
+	version: '1.1.0',
+	style: {
+		body: { 
+			background: "url('./assets/images/section-background.svg') 50% 17vh no-repeat,linear-gradient(to left top,#09c5f9,#3483d9) no-repeat"
+		},
+		ukLabel: {
+			background: "#3387db"
+		},
+		ukButtonPrimary: {
+			background: "#3387db",
+			'box-shadow': '',
+			border: ''
+		},
+		logoText: 'roshambo',
+		title: 'roshambo EOS game | by Cryptolions'
+	}
 };
 
 /*
