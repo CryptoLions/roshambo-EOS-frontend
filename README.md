@@ -1,7 +1,8 @@
 # Roshambo - Rock Paper Scissors game for EOS
 by CryptoLions.io [https://cryptolions.io]
 
-Roshambo Smart Contract: https://github.com/CryptoLions/roshambo-EOS-contract
+Smart contract: https://github.com/CryptoLions/roshambo-EOS-contract..
+Frontend: https://github.com/CryptoLions/roshambo-EOS-frontend..
 
 
 # RoshamboAngular
