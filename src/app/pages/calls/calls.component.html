@@ -25,16 +25,26 @@
 			<div *ngIf="game?.ph_move_hash !== nullHash"> [ {{ host }} ] sent move hash: <strong (click)="copyHash(game?.ph_move_hash)" class="hash-container"> {{ game?.ph_move_hash }} </strong> </div>
 			<div *ngIf="game?.pc_move_hash !== nullHash"> [ {{ game?.challenger }} ] sent move hash: <strong (click)="copyHash(game?.pc_move_hash)" class="hash-container"> {{ game?.pc_move_hash }} </strong> </div>
 			
-			<div *ngIf="game?.pc_move_hash !== nullHash && game?.ph_move_hash !== nullHash && game?.pc_move !== 0 ">
+			<div *ngIf="game?.pc_move_hash !== nullHash && game?.ph_move_hash !== nullHash && game?.pc_move !== 0">
 				<b>[ {{ game?.challenger }} ]</b> Confirmed Move: <span [innerHtml]="icons[game?.pc_move]"></span><br> 
-				[move: {{ game?.pc_move }}, nonce: {{ game?.pc_move_nonce }} =  {{ game?.pc_move }} {{ game?.pc_move_nonce }} 
-				<a href='https://md5calc.com/hash/sha256/{{game.pc_move}}{{game.pc_move_nonce}}' target='_blank'>check</a>]
+				<span *ngIf="game?.pc_move !== game?.pc_move_nonce">
+					[ move: {{ game?.pc_move }}, nonce: {{ game?.pc_move_nonce }} = {{ game?.pc_move }} {{ game?.pc_move_nonce }} 
+					<a href='https://md5calc.com/hash/sha256/{{game.pc_move}}{{game.pc_move_nonce}}' target='_blank'>check</a> ]
+				</span>
+				<span *ngIf="game?.pc_move === game?.pc_move_nonce">
+					[ Move not confirmed and time expired ]
+				</span>
 			</div>
 			
 			<div *ngIf="game?.pc_move_hash !== nullHash && game?.ph_move_hash !== nullHash && game?.ph_move !== 0 ">
-				<b>[ {{ game?.host }} ]</b> Confirmed Move: <span [innerHtml]="icons[game?.ph_move]"></span><br> 
-				[move: {{ game?.ph_move }}, nonce: {{ game?.ph_move_nonce }} =  {{ game?.ph_move }} {{ game?.ph_move_nonce }} 
-				<a href='https://md5calc.com/hash/sha256/{{game.ph_move}}{{game.pc_move_nonce}}' target='_blank'>check</a>]
+				<b>[ {{ game?.host }} ]</b> Confirmed Move: <span [innerHtml]="icons[game?.ph_move]"></span><br>
+				<span *ngIf="game?.ph_move !== game?.ph_move_nonce">
+					[ move: {{ game?.ph_move }}, nonce: {{ game?.ph_move_nonce }} =  {{ game?.ph_move }} {{ game?.ph_move_nonce }} 
+					<a href='https://md5calc.com/hash/sha256/{{game.ph_move}}{{game.ph_move_nonce}}' target='_blank'>check</a> ]
+				</span> 
+				<span *ngIf="game?.ph_move === game?.ph_move_nonce">
+					[ Move not confirmed and time expired ]
+				</span>
 			</div>
 
 		</div>

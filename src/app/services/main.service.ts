@@ -226,8 +226,8 @@ export class MainService {
     this.move[host] = move_;
     this.nonce[host] = Math.floor((Math.random() * 100000000) + 1);
 
-    this.setGame("rps_" + host + by + "_move", this.move[host]);
-    this.setGame("rps_" + host + by + "_nonce", this.nonce[host]);
+    this.setGame(`rps_${id}_move`, this.move[host]);
+    this.setGame(`rps_${id}_nonce`, this.nonce[host]);
   
     let my_move   = this.move[host] + "" + this.nonce[host];
     let move_hash = this.WINDOW.eosjs_ecc.sha256(my_move);
@@ -251,10 +251,10 @@ export class MainService {
     let by_name = (by === 1) ? host : challenger;
 
     if (! this.nonce[host]) {
-       this.nonce[host] = Number(this.getGame("rps_" + host + by + "_nonce"));
+       this.nonce[host] = Number(this.getGame(`rps_${id}_nonce`));
     }
     if (! this.move[host]) {
-       this.move[host] = Number(this.getGame("rps_" + host + by + "_move"));
+       this.move[host] = Number(this.getGame(`rps_${id}_move`));
     }
 
     console.log(this.nonce, this.move);

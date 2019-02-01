@@ -43,7 +43,7 @@ export class CallsComponent implements OnInit, OnDestroy {
   renderGame(){
        this.tableLoader = true;
   	   this.game = this.findById();
-  	   //console.log(this.game, this.host);
+  	   console.log('Call', this.game);
        if (this.game && this.game.ph_move_hash !== this.nullHash && 
            this.game.pc_move_hash !== this.nullHash && 
            !this.confirm && this.game.winner === 'none' && !this.game.pc_move)
@@ -70,7 +70,6 @@ export class CallsComponent implements OnInit, OnDestroy {
   	this.user = this.route.params.subscribe(params => {
        this.host = params['host'];
        this.id = Number(params['id']);
-       console.log(this.host , this.id)
        this.renderGame();
     });
   }
