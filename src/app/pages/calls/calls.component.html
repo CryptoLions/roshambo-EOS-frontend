@@ -10,7 +10,14 @@
 				<span class='msg_bgl msg_bgr_y' *ngIf="game?.pc_move_hash === nullHash && game?.ph_move_hash !== nullHash">waiting for oponent move...</span>
 				<span class='msg_bgl msg_bgl_y' *ngIf="game?.ph_move_hash !== nullHash && game?.pc_move_hash !== nullHash && game?.ph_move === 0">I'll confirm my move asap...</span>
 			</span>
-			<span class='msg_bgl msg_bgl_y' [ngClass]="{ 'msg_bgl_g': game?.winner === host, 'msg_bgl_r': game?.winner !== host && game?.winner !== 'none' && game?.winner !== 'self'}" *ngIf="game?.ph_move_hash !== nullHash && game?.pc_move_hash !== nullHash && game?.ph_move !== 0">Move confirmed: <span [innerHtml]="icons[game?.ph_move]"></span></span>
+			<span class='msg_bgl msg_bgl_y' [ngClass]="{ 'msg_bgl_g': game?.winner === host, 'msg_bgl_r': game?.winner !== host && game?.winner !== 'none' && game?.winner !== 'self'}" *ngIf="game?.ph_move_hash !== nullHash && game?.pc_move_hash !== nullHash && game?.ph_move !== 0">
+					<span *ngIf="game?.ph_move !== game?.ph_move_nonce">
+						Move confirmed: <span [innerHtml]="icons[game?.ph_move]"></span>
+					</span>
+					<span *ngIf="game?.ph_move === game?.ph_move_nonce">
+						I was too lazy to confirm a move :)
+					</span>
+			</span>
 		</div>
 		<i class="fas fa-user-ninja user-circle-icon"></i>
 		<h1 class="winner" id="winnerh_{{host}}" *ngIf="game?.winner !== 'none' && game?.winner === host && game?.winner !== 'self'">WINNER</h1>
@@ -21,7 +28,7 @@
 		<h3 class="header-history">History</h3>
 		<div id="gh_{{host}}_history" class="game-history">
 			<div> <b>[ {{ host }} ]</b>  started game to <b>[ {{ game?.challenger }} ]</b>  </div>
-			<div *ngIf="game?.accepted !== 0"> <b>[ {{ game?.challenger }} ]</b> accepted.</div>
+			<!--<div *ngIf="game?.accepted !== 0"> <b>[ {{ game?.challenger }} ]</b> accepted.</div>-->
 			<div *ngIf="game?.ph_move_hash !== nullHash"> [ {{ host }} ] sent move hash: <strong (click)="copyHash(game?.ph_move_hash)" class="hash-container"> {{ game?.ph_move_hash }} </strong> </div>
 			<div *ngIf="game?.pc_move_hash !== nullHash"> [ {{ game?.challenger }} ] sent move hash: <strong (click)="copyHash(game?.pc_move_hash)" class="hash-container"> {{ game?.pc_move_hash }} </strong> </div>
 			
@@ -56,7 +63,14 @@
 				<span class='msg_bgr msg_bgr_y' *ngIf="game?.pc_move_hash !== nullHash && game?.ph_move_hash === nullHash">waiting on oponent move to confirm own move...</span>
 				<span class='msg_bgr msg_bgr_y' *ngIf="game?.ph_move_hash !== nullHash && game?.pc_move_hash !== nullHash && game?.pc_move === 0">Please <a class='move-two' (click)="moveSecond(game?.id, game?.challenger, 2)">confirm</a> your move...</span>
 
-				<span class='msg_bgr msg_bgr_y' *ngIf="game?.pc_move_hash !== nullHash && game?.ph_move_hash !== nullHash && game?.pc_move !== 0" [ngClass]="{ 'msg_bgr_g': game?.winner === game?.challenger, 'msg_bgr_r': game?.winner !== game?.challenger && game?.winner !== 'none' && game?.winner !== 'self'}">Move confirmed: <span [innerHtml]="icons[game?.pc_move]"></span></span>
+				<span class='msg_bgr msg_bgr_y' *ngIf="game?.pc_move_hash !== nullHash && game?.ph_move_hash !== nullHash && game?.pc_move !== 0" [ngClass]="{ 'msg_bgr_g': game?.winner === game?.challenger, 'msg_bgr_r': game?.winner !== game?.challenger && game?.winner !== 'none' && game?.winner !== 'self'}">
+					<span *ngIf="game?.pc_move !== game?.pc_move_nonce">
+						Move confirmed: <span [innerHtml]="icons[game?.pc_move]"></span>
+					</span>
+					<span *ngIf="game?.pc_move === game?.pc_move_nonce">
+						I was too lazy to confirm a move :)
+					</span>
+			    </span>
 			</span>
 			<div *ngIf="game?.pc_move_hash === nullHash">
 			 	<button class="uk-button uk-button-primary marg_btm_5" [ngStyle]="config.style.ukButtonPrimary" type="button" id="btn_move1" (click)="moveFirst(game?.id, 1, game?.challenger, 2)" >

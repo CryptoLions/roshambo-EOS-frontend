@@ -27,6 +27,7 @@ export class CallsComponent implements OnInit, OnDestroy {
   confirm = false;
   config = environment;
   id;
+  timeout = 5000; // 5 sec
 
   moveFirst(id, game, challenger, num){
   	this.MainService.move01(id, game, challenger, num);
@@ -61,7 +62,15 @@ export class CallsComponent implements OnInit, OnDestroy {
             if (elem.id === this.id){
                 result = elem;
                 this.tableLoader = false;
+                return;
             }
+            if (elem.host === this.host && elem.challenger === this.MainService.accountName){
+                location.href = `/call/${this.host}/${elem.id}`;
+                return;
+            }
+            /*if (){
+
+            }*/
       });
       return result;
   }

@@ -40,7 +40,7 @@ export const environment = {
 const chain = 'e70aaab8997e1dfce58fbfac80cbbb8fecec7b99cf982a9444273cbc64c41473'; 
 export const environment = {
 	production: true,
-	gcontract: 'testertest11',
+	gcontract: 'roshambogame',
 	network : {
     	blockchain: 'eos',
     	host: 'jungle2.cryptolions.io',
