@@ -264,6 +264,7 @@ export class MainService {
         console.log(res)
         //getMyGames();
         //updateGameView();
+        this.clearCachedGames(id);
       }).catch(error => {
             this.showErr(error);
       });
@@ -278,6 +279,14 @@ export class MainService {
 
   getGame(cname) {
      return localStorage.getItem(cname);
+  }
+
+  clearCachedGames(id){
+    for (var i = 0; i < localStorage.length; i++){
+        if (localStorage.key(i).indexOf(`rps_${id}`) >= 0){
+            localStorage.removeItem(localStorage.key(i));
+        }
+    }
   }
 
   setPlayer(name){
