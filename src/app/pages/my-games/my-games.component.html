@@ -33,14 +33,14 @@
 
 		</div>
 		<i class="fas fa-user-ninja user-circle-icon"></i>
-		<h1 class="winner" id="winnerh_{{host}}" *ngIf="game?.winner !== 'none' && game?.winner === host">WINNER</h1>
-		<h1 class="looser" id="looserh_{{host}}" *ngIf="game?.winner !== 'none' && game?.winner !== host && game?.winner !== 'self' ">LOSER</h1>
+		<h1 class="winner" id="winnerh_{{host}}" *ngIf="game?.winner !== 'none' && game?.winner === host">YOU WINN</h1>
+		<h1 class="looser" id="looserh_{{host}}" *ngIf="game?.winner !== 'none' && game?.winner !== host && game?.winner !== 'self' ">YOU LOSE</h1>
 	</div>
 	<div class="col-sm-5 main-game-container">
 		<br>
 		<h3 class="header-history">History</h3>
 		<div id="gh_{{host}}_history" class="game-history">
-			<div> <b>[ {{ host }} ]</b>  started game to <b>[ {{ game?.challenger }} ]</b>  </div>
+			<div>game owner <b>[ {{ host }} ]</b>  started game with <b>[ {{ game?.challenger }} ]</b>  </div>
 			<!--<div *ngIf="game?.accepted !== 0"> <b>[ {{ game?.challenger }} ]</b> accepted.</div>-->
 			<div *ngIf="game?.ph_move_hash !== nullHash"> [ {{ host }} ] sent move hash: <strong (click)="copyHash(game?.ph_move_hash)" class="hash-container"> {{ game?.ph_move_hash }} </strong> </div>
 			<div *ngIf="game?.pc_move_hash !== nullHash"> [ {{ game?.challenger }} ] sent move hash: <strong (click)="copyHash(game?.pc_move_hash)" class="hash-container"> {{ game?.pc_move_hash }} </strong> </div>
@@ -91,14 +91,17 @@
 			</span>
 		</div>
 		<i class="fas fa-user-astronaut user-circle-icon"></i>
-		<h1 class="winner" id="winnerc_{{host}}" *ngIf="game?.winner !== 'none' && game?.winner === game?.challenger">WINNER</h1>
-		<h1 class="looser" id="looserc_{{host}}" *ngIf="game?.winner !== 'none' && game?.winner !== game?.challenger && game?.winner !== 'self' ">LOSER</h1>
+		<h1 class="winner" id="winnerc_{{host}}" *ngIf="game?.winner !== 'none' && game?.winner === game?.challenger">YOU WINN</h1>
+		<h1 class="looser" id="looserc_{{host}}" *ngIf="game?.winner !== 'none' && game?.winner !== game?.challenger && game?.winner !== 'self' ">YOU LOSE</h1>
+	</div>
+	<div class="col-sm-12">
+		<h1  *ngIf="game?.winner === 'none' && game?.pc_move && game?.ph_move">TIE</h1>	
 	</div>
 </div>
 
-<button class="uk-button uk-button-primary" [ngStyle]="config.style.ukButtonPrimary" type="button" (click)="closeGame()" id="btn_cancel" *ngIf="!tableLoader">Close Game</button>
-<span *ngIf="!tableLoader && game?.winner === 'none' && game?.pc_move_nonce || game?.ph_move_nonce" class="btn_restart">or</span>
-<button class="uk-button uk-button-primary btn_restart" [ngStyle]="config.style.ukButtonPrimary" type="button" (click)="restart()" id="btn_cancel" *ngIf="!tableLoader && game?.winner === 'none' && game?.pc_move_nonce || game?.ph_move_nonce">Restart</button>
+<button class="uk-button uk-button-primary" [ngStyle]="config.style.ukButtonPrimary" type="button" (click)="closeGame()" id="btn_cancel" *ngIf="!tableLoader && game?.pc_move && game?.ph_move">Close Game</button>
+<span *ngIf="!tableLoader && game?.pc_move && game?.ph_move" class="btn_restart">or</span>
+<button class="uk-button uk-button-primary btn_restart" [ngStyle]="config.style.ukButtonPrimary" type="button" (click)="restart()" id="btn_cancel" *ngIf="!tableLoader && game?.pc_move && game?.ph_move">Restart</button>
 
 
 
