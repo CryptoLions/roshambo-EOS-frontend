@@ -1,3 +1,10 @@
+# Roshambo - Rock Paper Scissors game for EOS
+by CryptoLions.io [https://cryptolions.io]
+
+Smart contract: https://github.com/CryptoLions/roshambo-EOS-contract..
+Frontend: https://github.com/CryptoLions/roshambo-EOS-frontend..
+
+
 # RoshamboAngular
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.
@@ -25,3 +32,6 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+
+<img src="https://imgs.cryptolions.io/lion_ascii.png">

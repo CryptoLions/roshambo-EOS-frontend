@@ -17,10 +17,10 @@ export const environment = {
 		verbose: false
 	},
 	botName: 'roshamboebot',
-	version: '1.1.0',
+	version: '2.0.0',
 	style: {
 		body: { 
-			background: "url('./imgs/section-background.svg') 50% 17vh no-repeat,linear-gradient(to left top, #218838bf, #218838) 0 0 no-repeat"
+			background: "url('./assets/images/section-background.svg') 50% 17vh no-repeat,linear-gradient(to left top, #218838bf, #218838) 0 0 no-repeat"
 		},
 		ukLabel: {
 			background: "#209362"

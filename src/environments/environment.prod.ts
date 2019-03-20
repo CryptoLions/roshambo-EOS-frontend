@@ -17,7 +17,7 @@ export const environment = {
 		verbose: false
 	},
 	botName: 'roshambopunk',
-	version: '1.1.0',
+	version: '2.0.0',
 	style: {
 		body: { 
 			background: "url('./assets/images/section-background.svg') 50% 17vh no-repeat,linear-gradient(to left top,#09c5f9,#3483d9) no-repeat"

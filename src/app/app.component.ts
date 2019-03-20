@@ -52,29 +52,18 @@ export class AppComponent implements OnInit {
 
 
   createNavDropdowns(){
-      this.MainService.getMyGamesCalls((err, calls) => {
-          if (err){
-            return console.error(err);
-          }
-          for(let k in calls){
-            if (this.GAMES_C.indexOf(calls[k].host) < 0){
-              this.GAMES_C.push(calls[k].host);
-            }
-          }
-      });
-
       this.MainService.getGameChallenges((err, challenges) => {
           if (err){
             return console.error(err);
           }
-          if (this.GAMES_M.length < Object.keys(challenges).length){
-              document.title = '* ' + document.title;
+          this.GAMES_M = challenges;
+      });
+
+      this.MainService.getMyGamesCalls((err, calls) => {
+          if (err){
+            return console.error(err);
           }
-          for(let k in challenges){
-            if (this.GAMES_M.indexOf(challenges[k].challenger) < 0){
-              this.GAMES_M.push(challenges[k].challenger);
-            }
-          }
+          this.GAMES_C = calls;
       });
   }
 

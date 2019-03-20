@@ -18,6 +18,7 @@ export class MyGamesComponent implements OnInit, OnDestroy {
   }
   
   user;
+  challenger;
   host;
   game;
   timer;
@@ -26,14 +27,15 @@ export class MyGamesComponent implements OnInit, OnDestroy {
   icons = [];
   confirm = false;
   config = environment;
+  id;
 
 
-  moveFirst(game, host, challenger, num){
-  	this.MainService.move01(game, host, challenger, num);
+  moveFirst(id, game, challenger, num){
+  	this.MainService.move01(id, game, challenger, num);
   }
   
-  moveSecond(host, challenger, num){
-  	this.MainService.move02(host, challenger, num);
+  moveSecond(id, challenger, num){
+  	this.MainService.move02(id, challenger, num);
   }
 
   copyHash(hash){
@@ -41,32 +43,44 @@ export class MyGamesComponent implements OnInit, OnDestroy {
   }
 
   closeGame(){
-  		this.MainService.closeGame(this.host)
+  		this.MainService.closeGame(this.id);
   }
 
   restart(){
-      this.MainService.restart()
+      this.MainService.restart(this.id, this.challenger);
   }
 
   renderGame(){
-  	   this.game = this.MainService.GAMES_M[this.host];
+       this.tableLoader = true;
+  	   this.game = this.findById();
   	   this.host = this.MainService.accountName;
-  	   this.tableLoader = (!this.game) ? true : false;
-  	   console.log(this.game);
+
        if (this.game && this.game.ph_move_hash !== this.nullHash && 
            this.game.pc_move_hash !== this.nullHash && 
            !this.confirm && this.game.winner === 'none' && !this.game.ph_move)
        {
-           this.moveSecond(this.game.host, this.game.challenger, 1);
+           this.moveSecond(this.game.id, this.game.challenger, 1);
            this.confirm = true;
            console.log('Move confirmed !!!');
        }
   	   this.timer = setTimeout( () => { this.renderGame() }, 1000);
   }
 
+  findById(){
+      let result;
+      this.MainService.GAMES_M.forEach(elem => {
+            if (elem.id === this.id){
+                result = elem;
+                this.tableLoader = false;
+            }
+      });
+      return result;
+  }
+
   ngOnInit() {
   	this.user = this.route.params.subscribe(params => {
-       this.host = params['id'];
+       this.challenger = params['challenger'];
+       this.id = Number(params['id']);
        this.renderGame();
     });
   }

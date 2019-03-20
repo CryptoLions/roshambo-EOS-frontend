@@ -18,9 +18,6 @@ const config        = require('../config');
 const mongoose      = require("mongoose");
 mongoose.set('useCreateIndex', true);
 
-const EOS           = require('eosjs');
-global.eos          = EOS(config.eosConfig);
-
 const log4js        = require('log4js');
 log4js.configure(config.logger);
 const log           = log4js.getLogger('server');

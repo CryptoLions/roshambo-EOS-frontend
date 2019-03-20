@@ -15,11 +15,11 @@ module.exports = function(router, config, request, log) {
 	   	res.sendFile(indexPath);
 	});
 
-	router.get('/mygame/:user', (req, res) => {
+	router.get('/mygame/:user/:id', (req, res) => {
 	   	res.sendFile(indexPath);
 	});
 
-	router.get('/call/:user', (req, res) => {
+	router.get('/call/:user/:id', (req, res) => {
 	   	res.sendFile(indexPath);
 	});
 

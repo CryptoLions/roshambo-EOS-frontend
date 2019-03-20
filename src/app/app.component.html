@@ -15,7 +15,7 @@
                   
                   <div uk-dropdown>
                       <ul class="uk-nav uk-dropdown-nav" id="gameCallsH">
-                          <li class='uk-active' *ngFor="let host of GAMES_M"><a [routerLink]="['mygame', host]">{{ host }}</a></li>
+                          <li class='uk-active' *ngFor="let elem of GAMES_M"><a href="/mygame/{{elem?.challenger}}/{{elem?.id}}">{{ elem?.challenger }}</a></li>
                           <li id="gameCallsHZero" *ngIf="GAMES_M?.length === 0">my games not found</li>
                       </ul>
                   </div>
@@ -29,7 +29,7 @@
                   
                   <div uk-dropdown>
                       <ul class="uk-nav uk-dropdown-nav" id="gameCalls">
-                        <li class='uk-active' *ngFor="let host of GAMES_C"><a [routerLink]="['call', host]">{{ host }}</a></li>
+                        <li class='uk-active' *ngFor="let elem of GAMES_C"><a href="/call/{{elem?.host}}/{{elem?.id}}">{{ elem?.host }}</a></li>
                           <li id="gameCallsZero" *ngIf="GAMES_C?.length === 0">game calls not found</li>
                       </ul>
                   </div>
