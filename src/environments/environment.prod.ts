@@ -12,7 +12,7 @@ export const environment = {
 	},
 	chain: chain,
 	Eos: {
-		httpEndpoint: 'http://bp.cryptolions.io',
+		httpEndpoint: 'https://bp.cryptolions.io',
 		chainId: chain,
 		verbose: false
 	},
